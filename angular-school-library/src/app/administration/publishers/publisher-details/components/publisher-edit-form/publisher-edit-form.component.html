@@ -1,0 +1,57 @@
+<div>
+    <h1 class="h3 mb-3 font-weight-normal text-center">
+        <ng-container *ngIf="publisher.publisherID && publisher.publisherID > 0">Edit Publisher</ng-container>
+        <ng-container *ngIf="!publisher.publisherID || publisher.publisherID === 0">Add Publisher</ng-container>
+    </h1>
+    <div class="publisher-edit-form">
+      <form [formGroup]="publisherEditForm" (ngSubmit)="save()">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Name:</label>
+          <div class="col-sm-9">
+            <input type="text" placeholder="Name" formControlName="name" class="form-control"
+                   [ngClass]="{'is-invalid': name.touched && !name.valid}"/>
+            <div *ngIf="name.hasError('required') && name.touched" class='text-danger'>Field required</div>
+            <div *ngIf="name.hasError('maxlength') && name.touched"
+                  class='text-danger'>The field cannot contain more than 50 characters</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Address:</label>
+          <div class="col-sm-9">
+            <input type="text" placeholder="Address" formControlName="address" class="form-control"
+                   [ngClass]="{'is-invalid': address.touched && !address.valid}"/>
+            <div *ngIf="address.hasError('required') && address.touched" class='text-danger'>Field required</div>
+            <div *ngIf="address.hasError('maxlength') && address.touched"
+                  class='text-danger'>The field cannot contain more than 200 characters</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Additional Information:</label>
+          <div class="col-sm-9">
+            <textarea formControlName="additionalInformation" placeholder="Additional Information" class="form-control"
+            [ngClass]="{'is-invalid': additionalInformation.touched && !additionalInformation.valid}"></textarea>
+            <div *ngIf="additionalInformation.hasError('maxlength') && additionalInformation.touched"
+                  class='text-danger'>The field cannot contain more than 1000 characters</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-offset-3 col-sm-9">
+              <span [ngStyle]="{ 'margin-right': '20px' }">
+                  <button class="btn btn-primary" type="submit">
+                    <ng-container *ngIf="publisher.publisherID && publisher.publisherID > 0">Update</ng-container>
+                    <ng-container *ngIf="!publisher.publisherID || publisher.publisherID === 0">Add</ng-container>
+                  </button>
+              </span>
+              <button *ngIf="!publisher.publisherID || publisher.publisherID === 0" type="button" class="btn btn-secondary"
+                (click)="redirectToPublishersList.emit()">Return</button>
+              <button *ngIf="publisher.publisherID && publisher.publisherID > 0" type="button"
+                class="btn btn-secondary" (click)="cancelEdit.emit()">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>

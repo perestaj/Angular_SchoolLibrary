@@ -1,0 +1,76 @@
+<div *ngIf="!loans || loans.length === 0" class="text-center">0 loans found</div>
+<div *ngIf="loans && loans.length > 0" class="loans-table">
+  <table class="table table-striped table-bordered table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">
+                <button (click)="sortLoansList.emit(loanColumns.Title)" class="btn btn-link">
+                    <u *ngIf="sortColumn===loanColumns.Title; else titleTemplate"><strong>Title</strong></u>
+                    <ng-template #titleTemplate>Title</ng-template>
+                </button>
+            </th>
+            <th scope="col">
+                <button (click)="sortLoansList.emit(loanColumns.Authors)" class="btn btn-link">
+                    <u *ngIf="sortColumn===loanColumns.Authors; else authorsTemplate"><strong>Author(s)</strong></u>
+                    <ng-template #authorsTemplate>Author(s)</ng-template>
+                </button>
+            </th>
+            <th scope="col">
+                <button (click)="sortLoansList.emit(loanColumns.User)" class="btn btn-link">
+                    <u *ngIf="sortColumn===loanColumns.User; else userTemplate"><strong>User</strong></u>
+                    <ng-template #userTemplate>User</ng-template>
+                </button>
+            </th>
+            <th scope="col">
+                <button (click)="sortLoansList.emit(loanColumns.RequestDate)" class="btn btn-link">
+                        <u *ngIf="sortColumn===loanColumns.RequestDate; else requestDateTemplate"><strong>Request Date</strong></u>
+                        <ng-template #requestDateTemplate>Request Date</ng-template>
+                </button>
+            </th>
+            <th scope="col">
+              <button (click)="sortLoansList.emit(loanColumns.BorrowDate)" class="btn btn-link">
+                      <u *ngIf="sortColumn===loanColumns.BorrowDate; else borrowDateTemplate"><strong>Borrow Date</strong></u>
+                      <ng-template #borrowDateTemplate>Borrow Date</ng-template>
+              </button>
+          </th>
+            <th scope="col">
+                <button (click)="sortLoansList.emit(loanColumns.Status)" class="btn btn-link">
+                    <u *ngIf="sortColumn===loanColumns.Status; else statusTemplate"><strong>Status</strong></u>
+                    <ng-template #statusTemplate>Status</ng-template>
+                </button>
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let loan of loans">
+            <td>{{loan.book.title}}</td>
+            <td>{{loan.book.authorsList}}</td>
+            <td>{{loan.user.fullName}}</td>
+            <td>{{loan.requestDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{loan.borrowDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{loan.book.statusName}}</td>
+            <td>
+                <div *ngIf="loan.book.status !== bookStatus.Lost">
+                    <div class="btn-group" role="group">
+                        <button id="bookStatusSelector" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            Change status
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="bookStatusSelector">
+                            <a *ngIf="loan.book.status===bookStatus.Requested" class="dropdown-item" [ngStyle]="{'cursor': 'pointer'}"
+                                (click)="setBookStatus(bookStatus.Borrowed, loan.bookID, loan.userID)">Borrowed</a>
+
+                            <a *ngIf="loan.book.status === bookStatus.Requested || loan.book.status === bookStatus.Borrowed"
+                                class="dropdown-item" [ngStyle]="{'cursor': 'pointer'}"
+                                (click)="setBookStatus(bookStatus.Available, loan.bookID, loan.userID)">Available</a>
+
+                            <a class="dropdown-item" [ngStyle]="{'cursor': 'pointer'}" (click)="setBookStatus(bookStatus.Lost, loan.bookID, loan.userID)">Lost</a>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,8 @@
+<div *ngIf="sortCriteria$ | async as sortCriteria">
+    <h1 class="h3 mb-3 font-weight-normal text-center">Books</h1>
+    <app-books-search-panel [publishers]="publishers$ | async" [authors]="authors$ | async" [showAddButton]="showAddButton$ | async"
+        [filter]="booksSearchFilter$ | async" (filterBooksList)="filterBooks($event)"></app-books-search-panel>
+    <app-books-table [books]="filteredBooks$ | async" [showRequestBook]="showRequestBook$ | async" [showDeleteButton]="showDeleteButton$ | async"
+        [sortColumn]="sortCriteria.sortColumn" (requestBook)="requestBook($event)"
+        (deleteBook)="deleteBook($event)" (sortBooksList)="sortBooks($event)"></app-books-table>
+</div>

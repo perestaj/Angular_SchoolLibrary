@@ -1,0 +1,10 @@
+<h1 class="h3 mb-3 font-weight-normal text-center">Loans</h1>
+<ng-container *ngIf="sortCriteria$ | async as sortCriteria">
+  <ng-container *ngIf="loansSearchFilter$ | async as filter">
+      <app-loans-search-panel *ngIf="filter.bookStatuses && filter.bookStatuses.length > 0" [filter]="filter"
+        (filterLoansList)="filterLoansList($event)"></app-loans-search-panel>
+      <app-loans-table [loans]="filteredLoans$ | async" [sortColumn]="sortCriteria.sortColumn" (sortLoansList)="sortLoans($event)"
+                   (lendBook)="lendBook($event)" (returnBook)="returnBook($event)"
+                   (setBookStatusToLost)="setBookStatusToLost($event)"></app-loans-table>
+  </ng-container>
+</ng-container>

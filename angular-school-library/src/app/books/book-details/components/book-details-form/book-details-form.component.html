@@ -1,0 +1,45 @@
+<div>
+  <h1 class="h3 mb-3 font-weight-normal text-center">
+    Book Details
+  </h1>
+  <div class="book-details-form">
+    <form [formGroup]="bookDetailsForm">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Title:</label>
+        <div class="col-sm-9">
+          <label class="col-form-label">{{book.title}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Author(s):</label>
+        <div class="col-sm-9">
+         <label class="col-form-label">{{book.authorsList}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Publisher:</label>
+        <div class="col-sm-9">
+         <label class="col-form-label">{{book.publisherName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Additional Information:</label>
+        <div class="col-sm-9">
+         <label class="col-form-label">{{book.additionalInformation}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-offset-3 col-sm-9">
+          <span *ngIf="showEditButton" [ngStyle]="{'margin-right': '10px'}">
+            <button type="button" class="btn btn-primary" type="button" (click)="edit.emit()">Edit</button>
+          </span>
+          <button type="button" class="btn btn-secondary" type="button" (click)="redirectToBooksList.emit()">Return</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

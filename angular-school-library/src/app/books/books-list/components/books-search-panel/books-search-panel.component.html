@@ -1,0 +1,42 @@
+<div class="panel">
+  <form [formGroup]="booksSearchPanelForm">
+          <div *ngIf="showAddButton" class="form-group">
+              <div>
+                  <button [routerLink]="['/books/0']" type="button" class="btn btn-primary">Add</button>
+              </div>
+          </div>
+      <div class="form-row">
+          <div class="col-md-6 mb-3">
+              <label>Title:</label>
+              <div>
+                  <input type="text" formControlName="title" class="form-control" />
+              </div>
+          </div>
+          <div class="col-md-3 mb-3">
+              <label class="control-label">Author(s):</label>
+              <div>
+              <select formControlName="authorID" class="form-control">
+                  <option [value]="0">-- ALL --</option>
+                  <option *ngFor="let author of authors" [value]="author.authorID">{{author.fullName}}</option>
+              </select>
+              </div>
+          </div>
+          <div class="col-md-3 mb-3">
+              <label>Publisher:</label>
+              <div>
+              <select formControlName="publisherID" class="form-control">
+                <option [value]="0">-- ALL --</option>
+                <option *ngFor="let publisher of publishers" [value]="publisher.publisherID">{{publisher.name}}</option>
+              </select>
+              </div>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="form-check">
+              <input type="checkbox" id="chkOnlyAvailable" class="form-check-input" formControlName="onlyAvailable" />
+
+              <label class="form-check-label" for="chkOnlyAvailable">Only available</label>
+          </div>
+      </div>
+  </form>
+</div>

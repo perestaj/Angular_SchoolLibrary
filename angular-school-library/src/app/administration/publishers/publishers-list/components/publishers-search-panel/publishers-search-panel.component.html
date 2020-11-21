@@ -1,0 +1,29 @@
+<div class="panel">
+  <form [formGroup]="publishersSearchPanelForm">
+      <div class="form-group">
+          <div>
+              <button [routerLink]="['/administration/publishers/0']" type="button" class="btn btn-primary">Add</button>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="col-md-4 mb-3">
+              <label>Name:</label>
+              <div>
+                  <input type="text" formControlName="name" class="form-control" />
+              </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label>Address:</label>
+            <div>
+                <input type="text" formControlName="address" class="form-control" />
+            </div>
+        </div>
+          <div class="col-md-4 mb-3">
+            <label>Additional Information:</label>
+            <div>
+                <input type="text" formControlName="additionalInformation" class="form-control" />
+            </div>
+        </div>
+      </div>
+  </form>
+</div>

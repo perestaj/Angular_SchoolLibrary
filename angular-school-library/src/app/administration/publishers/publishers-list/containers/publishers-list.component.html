@@ -1,0 +1,8 @@
+<div *ngIf="publishersSearchFilter$ | async as publishersSearchFilter">
+  <h1 class="h3 mb-3 font-weight-normal text-center">Publishers</h1>
+  <app-publishers-search-panel [publishersSearchFilter]="publishersSearchFilter"
+    (filterPublishersList)="filterPublishers($event)"></app-publishers-search-panel>
+  <app-publishers-table *ngIf="sortCriteria$ | async as sortCriteria"
+    [publishers]="filteredPublishers$ | async" [sortColumn]="sortCriteria.sortColumn"
+    (deletePublisher)="deletePublisher($event)" (sortPublishersList)="sortPublishers($event)"></app-publishers-table>
+</div>

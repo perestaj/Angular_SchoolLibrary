@@ -1,0 +1,129 @@
+<div>
+  <h1 class="h3 mb-3 font-weight-normal text-center">
+    <ng-container *ngIf="user.userID && user.userID > 0">Edit User</ng-container>
+    <ng-container *ngIf="!user.userID || user.userID === 0">Add User</ng-container>
+  </h1>
+  <div class="user-edit-form">
+    <form [formGroup]="userEditForm" (ngSubmit)="save()">
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">UserName:</label>
+              <div class="col-sm-9">
+                  <input type="text" placeholder="Enter user name" formControlName="userName" class="form-control"
+                        [ngClass]="{'is-invalid': userName.touched && !userName.valid}"/>
+                  <div *ngIf="userName.hasError('required') && userName.touched" class='text-danger'>Field required</div>
+                  <div *ngIf="userName.hasError('maxlength') && userName.touched"
+                        class='text-danger'>The field cannot contain more than 50 characters</div>
+              </div>
+          </div>
+          <ng-container formGroupName="passwordGroup">
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Password:</label>
+              <div class="col-sm-9">
+                  <input type="password" placeholder="Enter password (only if you want to change it!)" formControlName="password" class="form-control"
+                        [ngClass]="{'is-invalid': password.touched && !password.valid}" autocomplete="off"/>
+                  <div *ngIf="password.hasError('maxlength') && password.touched"
+                        class='text-danger'>The field cannot contain more than 128 characters</div>
+                  <div *ngIf="password.hasError('required') && password.touched"
+                        class='text-danger'>Field required</div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Confirm Password:</label>
+              <div class="col-sm-9">
+                  <input type="password" placeholder="Confirm password" formControlName="passwordConfirm" class="form-control"
+                        [ngClass]="{'is-invalid': passwordConfirm.touched && !passwordConfirm.valid}" autocomplete="off"/>
+                  <div *ngIf="passwordConfirm.hasError('maxlength') && passwordConfirm.touched"
+                        class='text-danger'>The field cannot contain more than 128 characters</div>
+                    <div *ngIf="userEditForm.get('passwordGroup').hasError('confirm') && passwordConfirm.touched"
+                        class='text-danger'>Password and Password Confirm must match</div>
+              </div>
+          </div>
+        </ng-container>
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">First name:</label>
+              <div class="col-sm-9">
+                <input type="text" placeholder="Enter first name" formControlName="firstName" class="form-control"
+                [ngClass]="{'is-invalid': firstName.touched && !firstName.valid}"/>
+              <div *ngIf="firstName.hasError('required') && firstName.touched" class='text-danger'>Field required</div>
+              <div *ngIf="firstName.hasError('maxlength') && firstName.touched"
+                    class='text-danger'>The field cannot contain more than 50 characters</div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Last Name:</label>
+              <div class="col-sm-9">
+                <input type="text" placeholder="Enter last name" formControlName="lastName" class="form-control"
+                      [ngClass]="{'is-invalid': lastName.touched && !lastName.valid}"/>
+                <div *ngIf="lastName.hasError('required') && lastName.touched" class='text-danger'>Field required</div>
+                <div *ngIf="lastName.hasError('maxlength') && lastName.touched"
+                      class='text-danger'>The field cannot contain more than 50 characters</div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Email:</label>
+              <div class="col-sm-9">
+                <input type="text" placeholder="Enter email" formControlName="email" class="form-control"
+                      [ngClass]="{'is-invalid': email.touched && !email.valid}"/>
+                <div *ngIf="email.hasError('email') && email.touched" class='text-danger'>Invalid email</div>
+                <div *ngIf="email.hasError('required') && email.touched" class='text-danger'>Field required</div>
+                <div *ngIf="email.hasError('maxlength') && email.touched"
+                      class='text-danger'>The field cannot contain more than 100 characters</div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Address:</label>
+              <div class="col-sm-9">
+                <input type="text" placeholder="Enter address" formControlName="address" class="form-control"
+                [ngClass]="{'is-invalid': address.touched && !address.valid}"/>
+                <div *ngIf="address.hasError('required') && address.touched" class='text-danger'>Field required</div>
+                <div *ngIf="address.hasError('maxlength') && address.touched"
+                      class='text-danger'>The field cannot contain more than 200 characters</div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Role:</label>
+              <div class="col-sm-9">
+                    <div *ngFor="let role of roles" class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" [value]="role.id" formControlName="role" />
+                            {{role.name}}
+                        </label>
+                    </div>
+                    <div *ngIf="role.hasError('required') && role.touched"
+                            class='text-danger'>Select role</div>
+                    <div *ngIf="role.hasError('id') && role.touched"
+                            class='text-danger'>Select role</div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+              <div class="col-sm-offset-3 col-sm-9">
+                    <span [ngStyle]="{ 'margin-right': '20px' }">
+                            <button class="btn btn-primary" type="submit">
+                              <ng-container *ngIf="user.userID && user.userID > 0">Update</ng-container>
+                              <ng-container *ngIf="!user.userID || user.userID === 0">Add</ng-container>
+                            </button>
+                        </span>
+                        <button *ngIf="!user.userID || user.userID === 0" type="button" class="btn btn-secondary"
+                          (click)="redirectToUsersList.emit()">Return</button>
+                        <button *ngIf="user.userID && user.userID > 0" type="button" class="btn btn-secondary"
+                          (click)="cancelEdit.emit()">Cancel</button>
+              </div>
+          </div>
+
+          <div *ngIf="!!userUpdateResult && !userUpdateResult.success" class="form-group row text-danger">
+            <span *ngIf="userUpdateResult.emailTaken">
+                The email is already taken
+            </span>
+            <span *ngIf="userUpdateResult.userNameTaken">
+                The user name is already taken
+            </span>
+          </div>
+      </form>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="panel">
+    <form class="form-horizontal" [formGroup]="usersSearchPanelForm">
+        <div class="form-group">
+            <div>
+                <button [routerLink]="['/administration/users/0']" type="button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label>Full Name:</label>
+                <div>
+                    <input type="text" formControlName="fullName" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Email:</label>
+                <div>
+                    <input type="text" formControlName="email" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label>Address:</label>
+                <div>
+                    <input type="text" formControlName="address" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check"  >
+                  <ng-container formArrayName="userRoles"
+                      *ngFor="let role of roles.controls; let i=index;">
+                      <ng-container [formGroupName]="i" >
+                              <label [ngStyle]="{'margin-right': '10px'}">
+                                  <input type="checkbox" formControlName="selected" />
+                                  {{role.controls.name.value}}
+                              </label>
+                      </ng-container>
+                  </ng-container>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,27 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+  <h5 class="my-0 mr-md-auto font-weight-normal">University Library</h5>
+
+    <ul class="nav">
+      <li class="nav-item">
+        <a [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/books']" routerLinkActive="active" class="nav-link">Books</a>
+      </li>
+      <li *ngIf="canEditLoans$ | async" class="nav-item">
+        <a [routerLink]="['/loans']" routerLinkActive="active" class="nav-link">Loans</a>
+      </li>
+      <li *ngIf="displayAdministrationLink$ | async" class="nav-item dropdown">
+        <a [class.active]="router.isActive('/administration', false)" href="#" role="button" data-toggle="dropdown" routerLinkActive="active" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Administration</a>
+        <div class="dropdown-menu">
+          <a *ngIf="canEditAuthors$ | async" [routerLink]="['/administration/authors']" class="dropdown-item">Authors</a>
+          <a *ngIf="canEditPublishers$ | async" [routerLink]="['/administration/publishers']" class="dropdown-item">Publishers</a>
+          <a *ngIf="canEditUsers$ | async" [routerLink]="['/administration/users']" class="dropdown-item">Users</a>
+        </div>
+      </li>
+    </ul>
+
+  <span class="LoginInfo">
+    <app-login-info></app-login-info>
+  </span>
+</div>

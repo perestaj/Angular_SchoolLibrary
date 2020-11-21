@@ -1,0 +1,18 @@
+<div>
+    <form [formGroup]="loginForm" class="form-signin" (ngSubmit)="signIn(loginForm.value)">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
+
+        <label for="username" class="sr-only">Username</label>
+        <input formControlName="username" type="text" placeholder="Enter Username" class="form-control"
+          [ngClass]="{'field-error': loginForm.controls.username.invalid && loginForm.controls.username.touched }" />
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input formControlName="password" type="password" placeholder="Enter Password" class="form-control" autocomplete="off"
+          [ngClass]="{'field-error': loginForm.controls.password.invalid && loginForm.controls.password.touched }" />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+        <div *ngIf="invalidUsernamePassword$ | async" class="alert alert-danger signin-error" role="alert">Invalid Username or Password!</div>
+    </form>
+
+</div>

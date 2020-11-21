@@ -1,0 +1,57 @@
+<div>
+  <h1 class="h3 mb-3 font-weight-normal text-center">
+      <ng-container *ngIf="author.authorID && author.authorID > 0">Edit Author</ng-container>
+      <ng-container *ngIf="!author.authorID || author.authorID === 0">Add Author</ng-container>
+  </h1>
+  <div class="author-edit-form">
+    <form [formGroup]="authorEditForm" (ngSubmit)="save()">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">First Name:</label>
+        <div class="col-sm-9">
+          <input type="text" placeholder="First Name" formControlName="firstName" class="form-control"
+                 [ngClass]="{'is-invalid': firstName.touched && !firstName.valid}"/>
+          <div *ngIf="firstName.hasError('required') && firstName.touched" class='text-danger'>Field required</div>
+          <div *ngIf="firstName.hasError('maxlength') && firstName.touched"
+                class='text-danger'>The field cannot contain more than 50 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Last Name:</label>
+        <div class="col-sm-9">
+          <input type="text" placeholder="Last Name" formControlName="lastName" class="form-control"
+                 [ngClass]="{'is-invalid': lastName.touched && !lastName.valid}"/>
+          <div *ngIf="lastName.hasError('required') && lastName.touched" class='text-danger'>Field required</div>
+          <div *ngIf="lastName.hasError('maxlength') && lastName.touched"
+                class='text-danger'>The field cannot contain more than 50 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Additional Information:</label>
+        <div class="col-sm-9">
+          <textarea formControlName="additionalInformation" placeholder="Additional Information" class="form-control"
+          [ngClass]="{'is-invalid': additionalInformation.touched && !additionalInformation.valid}"></textarea>
+          <div *ngIf="additionalInformation.hasError('maxlength') && additionalInformation.touched"
+                class='text-danger'>The field cannot contain more than 1000 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-offset-3 col-sm-9">
+            <span [ngStyle]="{ 'margin-right': '20px' }">
+                <button class="btn btn-primary" type="submit">
+                  <ng-container *ngIf="author.authorID && author.authorID > 0">Update</ng-container>
+                  <ng-container *ngIf="!author.authorID || author.authorID === 0">Add</ng-container>
+                </button>
+            </span>
+            <button *ngIf="!author.authorID || author.authorID === 0" type="button" class="btn btn-secondary"
+            (click)="redirectToAuthorsList.emit()">Return</button>
+            <button *ngIf="author.authorID && author.authorID > 0" type="button" class="btn btn-secondary"
+              (click)="cancelEdit.emit()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>

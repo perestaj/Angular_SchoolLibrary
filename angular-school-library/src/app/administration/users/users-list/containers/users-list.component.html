@@ -1,0 +1,8 @@
+<h1 class="h3 mb-3 font-weight-normal text-center">Users</h1>
+<ng-container *ngIf="sortCriteria$ | async as sortCriteria">
+    <ng-container *ngIf="searchFilter$ | async as filter">
+      <app-users-search-panel (filterUsersList)="filterUsers($event)" [filter]="filter"></app-users-search-panel>
+      <app-users-table [users]="filteredUsers$ | async" [sortColumn]="sortCriteria.sortColumn"
+                   (deleteUser)="deleteUser($event)" (sortUsersList)="sortUsers($event)"></app-users-table>
+    </ng-container>
+</ng-container>

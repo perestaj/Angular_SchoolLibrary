@@ -1,0 +1,38 @@
+<div>
+  <h1 class="h3 mb-3 font-weight-normal text-center">
+    Author Details
+  </h1>
+  <div class="author-details-form">
+    <form [formGroup]="authorDetailsForm">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">First Name:</label>
+        <div class="col-sm-9">
+          <label class="col-form-label">{{author.firstName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Last Name:</label>
+        <div class="col-sm-9">
+            <label class="col-form-label">{{author.lastName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Additional Information:</label>
+        <div class="col-sm-9">
+        <label class="col-form-label">{{author.additionalInformation}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-offset-3 col-sm-9">
+          <span [ngStyle]="{ 'marginRight': '20px' }">
+            <button class="btn btn-primary" type="button" (click)="edit.emit()">Edit</button>
+          </span>
+          <button class="btn btn-secondary" type="button" (click)="redirectToAuthorsList.emit()">Return</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

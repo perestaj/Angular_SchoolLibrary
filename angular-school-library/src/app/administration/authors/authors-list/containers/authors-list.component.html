@@ -1,0 +1,8 @@
+<div *ngIf="authorsSearchFilter$ | async as authorsSearchFilter">
+  <h1 class="h3 mb-3 font-weight-normal text-center">Authors</h1>
+  <app-authors-search-panel [authorsSearchFilter]="authorsSearchFilter"
+    (filterAuthorsList)="filterAuthors($event)"></app-authors-search-panel>
+  <app-authors-table *ngIf="sortCriteria$ | async as sortCriteria"
+    [authors]="filteredAuthors$ | async" [sortColumn]="sortCriteria.sortColumn"
+    (deleteAuthor)="deleteAuthor($event)" (sortAuthorsList)="sortAuthors($event)"></app-authors-table>
+</div>

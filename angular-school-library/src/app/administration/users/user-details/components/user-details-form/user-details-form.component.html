@@ -1,0 +1,59 @@
+<div>
+  <h1 class="h3 mb-3 font-weight-normal text-center">
+    User Details
+  </h1>
+  <div class="user-details-form">
+    <form [formGroup]="userDetailsForm">
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">UserName:</label>
+        <div class="col-sm-9">
+          <label class="col-form-label">{{user.userName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">First Name:</label>
+        <div class="col-sm-9">
+          <label class="col-form-label">{{user.firstName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Last Name:</label>
+        <div class="col-sm-9">
+          <label class="col-form-label">{{user.lastName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Email:</label>
+        <div class="col-sm-9">
+          <label class="col-form-label">{{user.email}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Address:</label>
+        <div class="col-sm-9">
+            <label class="col-form-label">{{user.address}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label">Role:</label>
+        <div class="col-sm-9">
+            <label class="col-form-label">{{user.roleName}}</label>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-offset-3 col-sm-9">
+          <span [ngStyle]="{'margin-right': '20px'}">
+            <button class="btn btn-primary" type="button" (click)="edit.emit()">Edit</button>
+          </span>
+          <button class="btn btn-secondary" type="button" (click)="redirectToUsersList.emit()">Return</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
