@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AuthorsFacade } from '../../state/authors.facade';
 
 import { AuthorDetailsComponent } from './author-details.component';
 
@@ -8,7 +11,14 @@ describe('AuthorDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthorDetailsComponent ]
+      imports: [
+        RouterTestingModule
+      ],
+      declarations: [ AuthorDetailsComponent ],
+      providers: [
+        provideMockStore({ }),
+        AuthorsFacade
+      ]
     })
     .compileComponents();
   }));

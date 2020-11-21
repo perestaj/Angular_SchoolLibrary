@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { initialState } from '../../state/loans.reducer';
+import { LoansFacade } from '../../state/loans.facade';
 
 import { LoansListComponent } from './loans-list.component';
 
@@ -8,7 +11,11 @@ describe('LoansListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoansListComponent ]
+      declarations: [ LoansListComponent ],
+      providers: [
+        provideMockStore({ initialState }),
+        LoansFacade
+      ]
     })
     .compileComponents();
   }));

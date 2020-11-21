@@ -16,6 +16,20 @@ describe('UserDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserDetailsFormComponent);
     component = fixture.componentInstance;
+    component.user = {
+      userID: 1,
+      userName: '',
+      password: '',
+      passwordConfirm: '',
+      firstName: '',
+      lastName: '',
+      fullName: '',
+      address: '',
+      email: '',
+      role: '',
+      roleName: '',
+      isDeleted: false
+    };
     fixture.detectChanges();
   });
 

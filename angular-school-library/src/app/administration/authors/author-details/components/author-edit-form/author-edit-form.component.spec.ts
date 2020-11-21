@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthorEditFormComponent } from './author-edit-form.component';
 
@@ -8,6 +9,7 @@ describe('AuthorEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
       declarations: [ AuthorEditFormComponent ]
     })
     .compileComponents();
@@ -16,6 +18,14 @@ describe('AuthorEditFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthorEditFormComponent);
     component = fixture.componentInstance;
+    component.author = {
+      authorID: 1,
+      firstName: '',
+      lastName: '',
+      fullName: '',
+      additionalInformation: '',
+      isDeleted: false
+    }
     fixture.detectChanges();
   });
 

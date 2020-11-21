@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { UsersFacade } from '../../state/users.facade';
 
 import { UserDetailsComponent } from './user-details.component';
 
@@ -8,7 +11,12 @@ describe('UserDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserDetailsComponent ]
+      declarations: [ UserDetailsComponent ],
+      imports: [RouterTestingModule],
+      providers: [
+        provideMockStore({ }),
+        UsersFacade
+      ]
     })
     .compileComponents();
   }));

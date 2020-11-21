@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthorsSearchPanelComponent } from './authors-search-panel.component';
 
@@ -8,6 +9,7 @@ describe('AuthorsSearchPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
       declarations: [ AuthorsSearchPanelComponent ]
     })
     .compileComponents();
@@ -16,6 +18,10 @@ describe('AuthorsSearchPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AuthorsSearchPanelComponent);
     component = fixture.componentInstance;
+    component.authorsSearchFilter = {
+      fullName: '',
+      additionalInformation: ''
+    };
     fixture.detectChanges();
   });
 

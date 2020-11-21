@@ -16,6 +16,13 @@ describe('PublisherDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PublisherDetailsFormComponent);
     component = fixture.componentInstance;
+    component.publisher = {
+      publisherID: 1,
+      name: '',
+      address: '',
+      additionalInformation: '',
+      isDeleted: false
+    };
     fixture.detectChanges();
   });
 

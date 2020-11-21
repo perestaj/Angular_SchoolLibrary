@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AuthenticationFacade } from 'src/app/authentication/state/authentication.facade';
 
 import { NavBarComponent } from './nav-bar.component';
 
@@ -8,7 +11,12 @@ describe('NavBarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavBarComponent ]
+      declarations: [ NavBarComponent ],
+      imports: [RouterTestingModule],
+      providers: [
+        provideMockStore({ }),
+        AuthenticationFacade
+      ]
     })
     .compileComponents();
   }));

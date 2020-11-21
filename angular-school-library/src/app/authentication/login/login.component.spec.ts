@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AuthenticationFacade } from '../state/authentication.facade';
 
 import { LoginComponent } from './login.component';
 
@@ -8,7 +10,11 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
+      declarations: [ LoginComponent ],
+      providers: [
+        provideMockStore({ }),
+        AuthenticationFacade
+      ]
     })
     .compileComponents();
   }));

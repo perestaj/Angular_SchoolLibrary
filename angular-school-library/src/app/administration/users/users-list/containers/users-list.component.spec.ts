@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { UsersFacade } from '../../state/users.facade';
 
 import { UsersListComponent } from './users-list.component';
 
@@ -8,7 +10,11 @@ describe('UsersListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsersListComponent ]
+      declarations: [ UsersListComponent ],
+      providers: [
+        provideMockStore({ }),
+        UsersFacade
+      ]
     })
     .compileComponents();
   }));

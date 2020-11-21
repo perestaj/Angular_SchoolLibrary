@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AppFacade } from 'src/app/state/app.facade';
+import { PublishersFacade } from '../../state/publishers.facade';
 
 import { PublishersListComponent } from './publishers-list.component';
 
@@ -8,6 +11,11 @@ describe('PublishersListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      providers: [
+        provideMockStore({ }),
+        PublishersFacade,
+        AppFacade
+      ],
       declarations: [ PublishersListComponent ]
     })
     .compileComponents();

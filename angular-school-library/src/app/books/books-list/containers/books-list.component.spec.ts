@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { provideMockStore } from '@ngrx/store/testing';
+import { AuthenticationFacade } from 'src/app/authentication/state/authentication.facade';
+import { AppFacade } from 'src/app/state/app.facade';
+import { BookFacade } from '../../state/book.facade';
 
 import { BooksListComponent } from './books-list.component';
 
@@ -8,7 +12,13 @@ describe('BooksListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BooksListComponent ]
+      declarations: [ BooksListComponent ],
+      providers: [
+        provideMockStore({ }),
+        BookFacade,
+        AppFacade,
+        AuthenticationFacade
+      ]
     })
     .compileComponents();
   }));

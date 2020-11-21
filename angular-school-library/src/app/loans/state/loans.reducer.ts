@@ -15,7 +15,7 @@ export interface ILoansState {
     setBookStatusToLostShowInfo: boolean;
 }
 
-const initialState: ILoansState = {
+export const initialState: ILoansState = {
     loans: [],
     loansSearchFilter: null,
     sortCriteria: {
