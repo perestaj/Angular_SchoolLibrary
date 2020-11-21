@@ -13,37 +13,37 @@ import { ILoanEvent } from '../models/loan-event.model';
 
 @Injectable()
 export class LoansFacade {
-    constructor(private _store: Store<loanSelectors.ILoansState>) {}
+    constructor(private store: Store<loanSelectors.ILoansState>) {}
 
     public loadDefaultSearchFilter(): void {
-        this._store.dispatch(new loanActions.LoadDefaultSearchFilterAction());
+        this.store.dispatch(new loanActions.LoadDefaultSearchFilterAction());
     }
 
     public filterLoans(loansSearchFilter: ILoanSearchFilter): void {
-        this._store.dispatch(new loanActions.FilterLoansAction(loansSearchFilter));
+        this.store.dispatch(new loanActions.FilterLoansAction(loansSearchFilter));
     }
 
     public sortLoans(column: LoanSortColumns): void {
-        this._store.dispatch(new loanActions.SortLoansAction(column));
+        this.store.dispatch(new loanActions.SortLoansAction(column));
     }
 
     public loadLoans(): void {
-        this._store.dispatch(new loanActions.LoadLoansAction());
+        this.store.dispatch(new loanActions.LoadLoansAction());
     }
 
     public getLoansSortCriteria(): Observable<ISortCriteria<LoanSortColumns>> {
-        return this._store.pipe(select(loanSelectors.getLoansSortCriteria));
+        return this.store.pipe(select(loanSelectors.getLoansSortCriteria));
     }
 
     public getLoansSearchFilter(): Observable<ILoanSearchFilter> {
-        return this._store.pipe(select(loanSelectors.getLoansSearchFilter));
+        return this.store.pipe(select(loanSelectors.getLoansSearchFilter));
     }
 
     public getLoans(): Observable<ILoan[]> {
         return combineLatest(
-            this._store.pipe(select(loanSelectors.getLoans)),
-            this._store.pipe(select(loanSelectors.getLoansSearchFilter)),
-            this._store.pipe(select(loanSelectors.getLoansSortCriteria))
+            this.store.pipe(select(loanSelectors.getLoans)),
+            this.store.pipe(select(loanSelectors.getLoansSearchFilter)),
+            this.store.pipe(select(loanSelectors.getLoansSortCriteria))
         ).pipe(
             map(([loans, searchFilter, sortCriteria]) => {
                 const filteredLoans = this.filter(loans, searchFilter);
@@ -55,39 +55,39 @@ export class LoansFacade {
     }
 
     public getLendBookShowInfo(): Observable<boolean> {
-      return this._store.pipe(select(loanSelectors.getLendBookShowInfo));
+      return this.store.pipe(select(loanSelectors.getLendBookShowInfo));
     }
 
     public getReturnBookShowInfo(): Observable<boolean> {
-      return this._store.pipe(select(loanSelectors.getReturnBookShowInfo));
+      return this.store.pipe(select(loanSelectors.getReturnBookShowInfo));
     }
 
     public getSetBookStatusToLostShowInfo(): Observable<boolean> {
-      return this._store.pipe(select(loanSelectors.getSetBookStatusToLostShowInfo));
+      return this.store.pipe(select(loanSelectors.getSetBookStatusToLostShowInfo));
     }
 
     public setLendBookShowInfo(showInfo: boolean): void {
-      this._store.dispatch(new loanActions.LendBookShowInfoAction(showInfo));
+      this.store.dispatch(new loanActions.LendBookShowInfoAction(showInfo));
     }
 
     public setReturnBookShowInfo(showInfo: boolean): void {
-      this._store.dispatch(new loanActions.ReturnBookShowInfoAction(showInfo));
+      this.store.dispatch(new loanActions.ReturnBookShowInfoAction(showInfo));
     }
 
     public setBookStatusToLostShowInfo(showInfo: boolean): void {
-      this._store.dispatch(new loanActions.SetBookStatusToLostShowInfoAction(showInfo));
+      this.store.dispatch(new loanActions.SetBookStatusToLostShowInfoAction(showInfo));
     }
 
     public lendBook(loanEvent: ILoanEvent): void {
-      this._store.dispatch(new loanActions.LendBookAction(loanEvent));
+      this.store.dispatch(new loanActions.LendBookAction(loanEvent));
     }
 
     public returnBook(loanEvent: ILoanEvent): void {
-      this._store.dispatch(new loanActions.ReturnBookAction(loanEvent));
+      this.store.dispatch(new loanActions.ReturnBookAction(loanEvent));
     }
 
     public setBookStatusToLost(loanEvent: ILoanEvent): void {
-      this._store.dispatch(new loanActions.SetBookStatusToLostAction(loanEvent));
+      this.store.dispatch(new loanActions.SetBookStatusToLostAction(loanEvent));
     }
 
     private filter(loans: ILoan[], loansSearchFilter: ILoanSearchFilter): ILoan[] {
@@ -105,7 +105,7 @@ export class LoansFacade {
         });
       }
 
-      private sort(loans: ILoan[], column: string, loansSortDesc: boolean) {
+      private sort(loans: ILoan[], column: string, loansSortDesc: boolean): void {
         loans.sort((first, second) => {
           let firstField: any;
           let secondField: any;

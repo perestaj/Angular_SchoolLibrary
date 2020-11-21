@@ -12,33 +12,33 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthorsFacade {
-  constructor(private _store: Store<authorSelectors.IAuthorsState>) {}
+  constructor(private store: Store<authorSelectors.IAuthorsState>) {}
 
   public loadAuthor(): void {
-    this._store.dispatch(new authorActions.LoadAuthorAction());
+    this.store.dispatch(new authorActions.LoadAuthorAction());
   }
 
   public getAuthor(): Observable<IAuthor> {
-      return this._store.pipe(select(authorSelectors.getAuthor));
+      return this.store.pipe(select(authorSelectors.getAuthor));
   }
 
   public clearAuthor(): void {
-    this._store.dispatch(new authorActions.ClearAuthorAction);
+    this.store.dispatch(new authorActions.ClearAuthorAction());
   }
 
   public getIsEditMode(): Observable<boolean> {
-    return this._store.pipe(select(authorSelectors.getIsEditMode));
+    return this.store.pipe(select(authorSelectors.getIsEditMode));
   }
 
   public setIsEditMode(isEditMode: boolean): void {
-      this._store.dispatch(new authorActions.SetEditModeAction(isEditMode));
+      this.store.dispatch(new authorActions.SetEditModeAction(isEditMode));
   }
 
   public getFilteredAuthors(): Observable<IAuthor[]> {
     return combineLatest(
-      this._store.pipe(select(getAuthors)),
-      this._store.pipe(select(authorSelectors.getAuthorsSearchFilter)),
-      this._store.pipe(select(authorSelectors.getAuthorsSortCriteria))
+      this.store.pipe(select(getAuthors)),
+      this.store.pipe(select(authorSelectors.getAuthorsSearchFilter)),
+      this.store.pipe(select(authorSelectors.getAuthorsSortCriteria))
     ).pipe(
         map(([authors, searchFilter, sortCriteria]) => {
             const filteredAuthors = this.filter(authors, searchFilter);
@@ -50,35 +50,35 @@ export class AuthorsFacade {
   }
 
   public getSortCriteria(): Observable<ISortCriteria<AuthorSortColumns>> {
-      return this._store.pipe(select(authorSelectors.getAuthorsSortCriteria));
+      return this.store.pipe(select(authorSelectors.getAuthorsSortCriteria));
   }
 
   public getAuthorsSearchFilter(): Observable<IAuthorSearchFilter> {
-    return this._store.pipe(select(authorSelectors.getAuthorsSearchFilter));
+    return this.store.pipe(select(authorSelectors.getAuthorsSearchFilter));
   }
 
   public filterAuthors(authorsSearchFilter: IAuthorSearchFilter): void {
-    this._store.dispatch(new authorActions.FilterAuthorsAction(authorsSearchFilter));
+    this.store.dispatch(new authorActions.FilterAuthorsAction(authorsSearchFilter));
   }
 
   public sortAuthors(column: AuthorSortColumns): void {
-    this._store.dispatch(new authorActions.SortAuthorsAction(column));
+    this.store.dispatch(new authorActions.SortAuthorsAction(column));
   }
 
   public deleteAuthor(authorID: number): void {
-    this._store.dispatch(new authorActions.DeleteAuthorAction(authorID));
+    this.store.dispatch(new authorActions.DeleteAuthorAction(authorID));
   }
 
   public getAuthorDeletedShowInfo(): Observable<boolean> {
-    return this._store.pipe(select(authorSelectors.getAuthorDeletedShowInfo));
+    return this.store.pipe(select(authorSelectors.getAuthorDeletedShowInfo));
   }
 
   public deleteAuthorSuccessShowInfo(show: boolean): void {
-    this._store.dispatch(new authorActions.DeleteAuthorSuccessShowInfoAction(show));
+    this.store.dispatch(new authorActions.DeleteAuthorSuccessShowInfoAction(show));
   }
 
   public save(author: IAuthor): void {
-    this._store.dispatch(new authorActions.SaveAuthorAction(author));
+    this.store.dispatch(new authorActions.SaveAuthorAction(author));
   }
 
   private filter(authors: IAuthor[], authorsSearchFilter: IAuthorSearchFilter): IAuthor[] {
@@ -98,7 +98,7 @@ export class AuthorsFacade {
     });
   }
 
-  private sort(authors: IAuthor[], column: string, authorsSortDesc: boolean) {
+  private sort(authors: IAuthor[], column: string, authorsSortDesc: boolean): void {
     authors.sort((first, second) => {
       let firstField: any;
       let secondField: any;

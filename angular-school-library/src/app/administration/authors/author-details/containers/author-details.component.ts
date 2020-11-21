@@ -14,32 +14,32 @@ export class AuthorDetailsComponent implements OnInit, OnDestroy {
   public isEditMode$: Observable<boolean>;
   public author$: Observable<IAuthor>;
 
-  constructor(private _authorsFacade: AuthorsFacade, private _router: Router) { }
+  constructor(private authorsFacade: AuthorsFacade, private router: Router) { }
 
   public ngOnInit(): void {
-    this._authorsFacade.loadAuthor();
+    this.authorsFacade.loadAuthor();
 
-    this.author$ = this._authorsFacade.getAuthor();
-    this.isEditMode$ = this._authorsFacade.getIsEditMode();
+    this.author$ = this.authorsFacade.getAuthor();
+    this.isEditMode$ = this.authorsFacade.getIsEditMode();
   }
 
   public ngOnDestroy(): void {
-    this._authorsFacade.clearAuthor();
+    this.authorsFacade.clearAuthor();
   }
 
-  public edit() {
-    this._authorsFacade.setIsEditMode(true);
+  public edit(): void {
+    this.authorsFacade.setIsEditMode(true);
   }
 
-  public cancelEdit() {
-    this._authorsFacade.setIsEditMode(false);
+  public cancelEdit(): void {
+    this.authorsFacade.setIsEditMode(false);
   }
 
-  public save(author: IAuthor) {
-    this._authorsFacade.save(author);
+  public save(author: IAuthor): void {
+    this.authorsFacade.save(author);
   }
 
-  public redirectToAuthorsList() {
-    this._router.navigate(['/administration/authors']);
+  public redirectToAuthorsList(): void {
+    this.router.navigate(['/administration/authors']);
   }
 }

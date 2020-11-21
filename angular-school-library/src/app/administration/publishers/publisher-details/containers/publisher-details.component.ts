@@ -14,32 +14,32 @@ export class PublisherDetailsComponent implements OnInit, OnDestroy {
   public isEditMode$: Observable<boolean>;
   public publisher$: Observable<IPublisher>;
 
-  constructor(private _publishersFacade: PublishersFacade, private _router: Router) { }
+  constructor(private publishersFacade: PublishersFacade, private router: Router) { }
 
   public ngOnInit(): void {
-    this._publishersFacade.loadPublisher();
+    this.publishersFacade.loadPublisher();
 
-    this.publisher$ = this._publishersFacade.getPublisher();
-    this.isEditMode$ = this._publishersFacade.getIsEditMode();
+    this.publisher$ = this.publishersFacade.getPublisher();
+    this.isEditMode$ = this.publishersFacade.getIsEditMode();
   }
 
   public ngOnDestroy(): void {
-    this._publishersFacade.clearPublisher();
+    this.publishersFacade.clearPublisher();
   }
 
-  public edit() {
-    this._publishersFacade.setIsEditMode(true);
+  public edit(): void {
+    this.publishersFacade.setIsEditMode(true);
   }
 
-  public cancelEdit() {
-    this._publishersFacade.setIsEditMode(false);
+  public cancelEdit(): void {
+    this.publishersFacade.setIsEditMode(false);
   }
 
-  public save(Publisher: IPublisher) {
-    this._publishersFacade.save(Publisher);
+  public save(Publisher: IPublisher): void {
+    this.publishersFacade.save(Publisher);
   }
 
-  public redirectToPublishersList() {
-    this._router.navigate(['/administration/publishers']);
+  public redirectToPublishersList(): void {
+    this.router.navigate(['/administration/publishers']);
   }
 }

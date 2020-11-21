@@ -12,33 +12,33 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PublishersFacade {
-  constructor(private _store: Store<publisherSelectors.IPublishersState>) {}
+  constructor(private store: Store<publisherSelectors.IPublishersState>) {}
 
   public loadPublisher(): void {
-    this._store.dispatch(new publisherActions.LoadPublisherAction());
+    this.store.dispatch(new publisherActions.LoadPublisherAction());
   }
 
   public getPublisher(): Observable<IPublisher> {
-      return this._store.pipe(select(publisherSelectors.getPublisher));
+      return this.store.pipe(select(publisherSelectors.getPublisher));
   }
 
   public clearPublisher(): void {
-    this._store.dispatch(new publisherActions.ClearPublisherAction);
+    this.store.dispatch(new publisherActions.ClearPublisherAction());
   }
 
   public getIsEditMode(): Observable<boolean> {
-    return this._store.pipe(select(publisherSelectors.getIsEditMode));
+    return this.store.pipe(select(publisherSelectors.getIsEditMode));
   }
 
   public setIsEditMode(isEditMode: boolean): void {
-      this._store.dispatch(new publisherActions.SetEditModeAction(isEditMode));
+      this.store.dispatch(new publisherActions.SetEditModeAction(isEditMode));
   }
 
   public getFilteredPublishers(): Observable<IPublisher[]> {
     return combineLatest(
-      this._store.pipe(select(getPublishers)),
-      this._store.pipe(select(publisherSelectors.getPublishersSearchFilter)),
-      this._store.pipe(select(publisherSelectors.getPublishersSortCriteria))
+      this.store.pipe(select(getPublishers)),
+      this.store.pipe(select(publisherSelectors.getPublishersSearchFilter)),
+      this.store.pipe(select(publisherSelectors.getPublishersSortCriteria))
     ).pipe(
         map(([publishers, searchFilter, sortCriteria]) => {
             const filteredPublishers = this.filter(publishers, searchFilter);
@@ -50,35 +50,35 @@ export class PublishersFacade {
   }
 
   public getSortCriteria(): Observable<ISortCriteria<PublisherSortColumns>> {
-      return this._store.pipe(select(publisherSelectors.getPublishersSortCriteria));
+      return this.store.pipe(select(publisherSelectors.getPublishersSortCriteria));
   }
 
   public getPublishersSearchFilter(): Observable<IPublisherSearchFilter> {
-    return this._store.pipe(select(publisherSelectors.getPublishersSearchFilter));
+    return this.store.pipe(select(publisherSelectors.getPublishersSearchFilter));
   }
 
   public filterPublishers(PublishersSearchFilter: IPublisherSearchFilter): void {
-    this._store.dispatch(new publisherActions.FilterPublishersAction(PublishersSearchFilter));
+    this.store.dispatch(new publisherActions.FilterPublishersAction(PublishersSearchFilter));
   }
 
   public sortPublishers(column: PublisherSortColumns): void {
-    this._store.dispatch(new publisherActions.SortPublishersAction(column));
+    this.store.dispatch(new publisherActions.SortPublishersAction(column));
   }
 
   public deletePublisher(PublisherID: number): void {
-    this._store.dispatch(new publisherActions.DeletePublisherAction(PublisherID));
+    this.store.dispatch(new publisherActions.DeletePublisherAction(PublisherID));
   }
 
   public getPublisherDeletedShowInfo(): Observable<boolean> {
-    return this._store.pipe(select(publisherSelectors.getPublisherDeletedShowInfo));
+    return this.store.pipe(select(publisherSelectors.getPublisherDeletedShowInfo));
   }
 
   public deletePublisherSuccessShowInfo(show: boolean): void {
-    this._store.dispatch(new publisherActions.DeletePublisherSuccessShowInfoAction(show));
+    this.store.dispatch(new publisherActions.DeletePublisherSuccessShowInfoAction(show));
   }
 
   public save(Publisher: IPublisher): void {
-    this._store.dispatch(new publisherActions.SavePublisherAction(Publisher));
+    this.store.dispatch(new publisherActions.SavePublisherAction(Publisher));
   }
 
   private filter(publishers: IPublisher[], publishersSearchFilter: IPublisherSearchFilter): IPublisher[] {
@@ -101,7 +101,7 @@ export class PublishersFacade {
     });
   }
 
-  private sort(publishers: IPublisher[], column: string, publishersSortDesc: boolean) {
+  private sort(publishers: IPublisher[], column: string, publishersSortDesc: boolean): void {
     publishers.sort((first, second) => {
       let firstField: any;
       let secondField: any;

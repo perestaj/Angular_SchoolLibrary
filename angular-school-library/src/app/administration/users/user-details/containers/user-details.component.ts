@@ -18,34 +18,34 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public roles$: Observable<IUserRole[]>;
   public userUpdateResult: IUserUpdateResult;
 
-  constructor(private _usersFacade: UsersFacade, private _router: Router) { }
+  constructor(private usersFacade: UsersFacade, private router: Router) { }
 
   public ngOnInit(): void {
-    this._usersFacade.loadRoles();
-    this._usersFacade.loadUser();
+    this.usersFacade.loadRoles();
+    this.usersFacade.loadUser();
 
-    this.roles$ = this._usersFacade.getRoles();
-    this.user$ = this._usersFacade.getUser();
-    this.isEditMode$ = this._usersFacade.getIsEditMode();
+    this.roles$ = this.usersFacade.getRoles();
+    this.user$ = this.usersFacade.getUser();
+    this.isEditMode$ = this.usersFacade.getIsEditMode();
   }
 
   public ngOnDestroy(): void {
-    this._usersFacade.clearUser();
+    this.usersFacade.clearUser();
   }
 
   public edit(): void {
-    this._usersFacade.setIsEditMode(true);
+    this.usersFacade.setIsEditMode(true);
   }
 
   public cancelEdit(): void {
-    this._usersFacade.setIsEditMode(false);
+    this.usersFacade.setIsEditMode(false);
   }
 
   public save(user: IUser): void {
-    this._usersFacade.save(user);
+    this.usersFacade.save(user);
   }
 
-  public redirectToUsersList() {
-    this._router.navigate(['/administration/users']);
+  public redirectToUsersList(): void {
+    this.router.navigate(['/administration/users']);
   }
 }

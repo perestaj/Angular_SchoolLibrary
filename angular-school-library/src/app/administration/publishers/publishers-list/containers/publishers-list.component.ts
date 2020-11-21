@@ -16,49 +16,49 @@ import { takeWhile } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublishersListComponent implements OnInit, OnDestroy {
-  private _componentActive: boolean;
+  private componentActive: boolean;
 
   public sortCriteria$: Observable<ISortCriteria<PublisherSortColumns>>;
   public publishersSearchFilter$: Observable<IPublisherSearchFilter>;
   public filteredPublishers$: Observable<IPublisher[]>;
 
   constructor(
-    private _publishersFacade: PublishersFacade,
-    private _appFacade: AppFacade) { }
+    private publishersFacade: PublishersFacade,
+    private appFacade: AppFacade) { }
 
     public ngOnInit(): void {
-      this._componentActive = true;
-      this._appFacade.loadPublishers();
+      this.componentActive = true;
+      this.appFacade.loadPublishers();
 
-      this.publishersSearchFilter$ = this._publishersFacade.getPublishersSearchFilter();
-      this.sortCriteria$ = this._publishersFacade.getSortCriteria();
-      this.filteredPublishers$ = this._publishersFacade.getFilteredPublishers();
+      this.publishersSearchFilter$ = this.publishersFacade.getPublishersSearchFilter();
+      this.sortCriteria$ = this.publishersFacade.getSortCriteria();
+      this.filteredPublishers$ = this.publishersFacade.getFilteredPublishers();
 
-      this._publishersFacade.getPublisherDeletedShowInfo().pipe(takeWhile(() => this._componentActive))
+      this.publishersFacade.getPublisherDeletedShowInfo().pipe(takeWhile(() => this.componentActive))
       .subscribe((showInfo: boolean) => {
         if (showInfo) {
           window.alert('Publisher has been deleted successfully');
-          this._publishersFacade.deletePublisherSuccessShowInfo(false);
-          this._appFacade.loadPublishers();
+          this.publishersFacade.deletePublisherSuccessShowInfo(false);
+          this.appFacade.loadPublishers();
         }
       });
     }
 
     public ngOnDestroy(): void {
-      this._componentActive = false;
+      this.componentActive = false;
     }
 
     public deletePublisher(PublisherID: number): void {
       if (window.confirm('Are you sure you want to delete this publisher?')) {
-        this._publishersFacade.deletePublisher(PublisherID);
+        this.publishersFacade.deletePublisher(PublisherID);
       }
     }
 
-    public filterPublishers(PublishersSearchFilter: IPublisherSearchFilter) {
-      this._publishersFacade.filterPublishers(PublishersSearchFilter);
+    public filterPublishers(PublishersSearchFilter: IPublisherSearchFilter): void {
+      this.publishersFacade.filterPublishers(PublishersSearchFilter);
     }
 
-    public sortPublishers(column: PublisherSortColumns) {
-      this._publishersFacade.sortPublishers(column);
+    public sortPublishers(column: PublisherSortColumns): void {
+      this.publishersFacade.sortPublishers(column);
     }
 }

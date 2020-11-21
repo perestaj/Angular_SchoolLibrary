@@ -12,49 +12,49 @@ import { IUserRole } from '../models/user-role.model';
 
 @Injectable()
 export class UsersFacade {
-  constructor(private _store: Store<userSelectors.IUsersState>) {}
+  constructor(private store: Store<userSelectors.IUsersState>) {}
 
   public loadRoles(): void {
-    this._store.dispatch(new userActions.LoadRolesAction());
+    this.store.dispatch(new userActions.LoadRolesAction());
   }
 
   public getRoles(): Observable<IUserRole[]> {
-    return this._store.pipe(select(userSelectors.getRoles));
+    return this.store.pipe(select(userSelectors.getRoles));
   }
 
   public loadDefaultSearchFilter(): void {
-    this._store.dispatch(new userActions.LoadDefaultSearchFilterAction());
+    this.store.dispatch(new userActions.LoadDefaultSearchFilterAction());
   }
 
   public loadUsers(): void {
-    this._store.dispatch(new userActions.LoadUsersAction());
+    this.store.dispatch(new userActions.LoadUsersAction());
   }
 
   public loadUser(): void {
-    this._store.dispatch(new userActions.LoadUserAction());
+    this.store.dispatch(new userActions.LoadUserAction());
   }
 
   public getUser(): Observable<IUser> {
-      return this._store.pipe(select(userSelectors.getUser));
+      return this.store.pipe(select(userSelectors.getUser));
   }
 
   public clearUser(): void {
-    this._store.dispatch(new userActions.ClearUserAction);
+    this.store.dispatch(new userActions.ClearUserAction());
   }
 
   public getIsEditMode(): Observable<boolean> {
-    return this._store.pipe(select(userSelectors.getIsEditMode));
+    return this.store.pipe(select(userSelectors.getIsEditMode));
   }
 
   public setIsEditMode(isEditMode: boolean): void {
-      this._store.dispatch(new userActions.SetEditModeAction(isEditMode));
+      this.store.dispatch(new userActions.SetEditModeAction(isEditMode));
   }
 
   public getFilteredUsers(): Observable<IUser[]> {
     return combineLatest(
-      this._store.pipe(select(userSelectors.getUsers)),
-      this._store.pipe(select(userSelectors.getUsersSearchFilter)),
-      this._store.pipe(select(userSelectors.getUsersSortCriteria))
+      this.store.pipe(select(userSelectors.getUsers)),
+      this.store.pipe(select(userSelectors.getUsersSearchFilter)),
+      this.store.pipe(select(userSelectors.getUsersSortCriteria))
     ).pipe(
         map(([users, searchFilter, sortCriteria]) => {
             const filteredUsers = this.filter(users, searchFilter);
@@ -66,35 +66,35 @@ export class UsersFacade {
   }
 
   public getSortCriteria(): Observable<ISortCriteria<UserSortColumns>> {
-      return this._store.pipe(select(userSelectors.getUsersSortCriteria));
+      return this.store.pipe(select(userSelectors.getUsersSortCriteria));
   }
 
   public getUsersSearchFilter(): Observable<IUserSearchFilter> {
-    return this._store.pipe(select(userSelectors.getUsersSearchFilter));
+    return this.store.pipe(select(userSelectors.getUsersSearchFilter));
   }
 
   public filterUsers(UsersSearchFilter: IUserSearchFilter): void {
-    this._store.dispatch(new userActions.FilterUsersAction(UsersSearchFilter));
+    this.store.dispatch(new userActions.FilterUsersAction(UsersSearchFilter));
   }
 
   public sortUsers(column: UserSortColumns): void {
-    this._store.dispatch(new userActions.SortUsersAction(column));
+    this.store.dispatch(new userActions.SortUsersAction(column));
   }
 
   public deleteUser(UserID: number): void {
-    this._store.dispatch(new userActions.DeleteUserAction(UserID));
+    this.store.dispatch(new userActions.DeleteUserAction(UserID));
   }
 
   public getUserDeletedShowInfo(): Observable<boolean> {
-    return this._store.pipe(select(userSelectors.getUserDeletedShowInfo));
+    return this.store.pipe(select(userSelectors.getUserDeletedShowInfo));
   }
 
   public deleteUserSuccessShowInfo(show: boolean): void {
-    this._store.dispatch(new userActions.DeleteUserSuccessShowInfoAction(show));
+    this.store.dispatch(new userActions.DeleteUserSuccessShowInfoAction(show));
   }
 
   public save(User: IUser): void {
-    this._store.dispatch(new userActions.SaveUserAction(User));
+    this.store.dispatch(new userActions.SaveUserAction(User));
   }
 
   private filter(users: IUser[], usersSearchFilter: IUserSearchFilter): IUser[] {
@@ -119,7 +119,7 @@ export class UsersFacade {
     });
   }
 
-  private sort(users: IUser[], column: string, usersSortDesc: boolean) {
+  private sort(users: IUser[], column: string, usersSortDesc: boolean): void {
     users.sort((first, second) => {
       let firstField: any;
       let secondField: any;

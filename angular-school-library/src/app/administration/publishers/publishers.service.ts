@@ -6,25 +6,25 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class PublishersService {
-  private _baseUrl: string;
+  private baseUrl: string;
 
-  constructor(private _http: HttpClient) {
-    this._baseUrl = environment.baseUrl;
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.baseUrl;
   }
 
   public getPublishers(): Observable<IPublisher[]> {
-    return this._http.get<IPublisher[]>(`${this._baseUrl}/publishers`);
+    return this.http.get<IPublisher[]>(`${this.baseUrl}/publishers`);
   }
 
   public getPublisher(publisherID): Observable<IPublisher> {
-    return this._http.get<IPublisher>(`${this._baseUrl}/publishers/${publisherID}`);
+    return this.http.get<IPublisher>(`${this.baseUrl}/publishers/${publisherID}`);
   }
 
   public deletePublisher(publisherID: number): Observable<any> {
-    return this._http.delete(`${this._baseUrl}/publishers/${publisherID}`);
+    return this.http.delete(`${this.baseUrl}/publishers/${publisherID}`);
   }
 
   public updatePublisher(publisher: IPublisher): Observable<any> {
-    return this._http.post(`${this._baseUrl}/publishers`, publisher);
+    return this.http.post(`${this.baseUrl}/publishers`, publisher);
   }
 }

@@ -14,14 +14,14 @@ export class AuthorsSearchPanelComponent implements OnInit {
 
   public authorsSearchPanelForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
-    this.authorsSearchPanelForm = this._fb.group({
+    this.authorsSearchPanelForm = this.formBuilder.group({
       fullName: this.authorsSearchFilter.fullName,
       additionalInformation: this.authorsSearchFilter.additionalInformation
     });
 
-    this.authorsSearchPanelForm.valueChanges.subscribe(value => this.filterAuthorsList.emit(<IAuthorSearchFilter> value));
+    this.authorsSearchPanelForm.valueChanges.subscribe((value: IAuthorSearchFilter) => this.filterAuthorsList.emit(value));
   }
 }

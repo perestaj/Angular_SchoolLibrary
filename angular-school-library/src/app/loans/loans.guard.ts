@@ -6,14 +6,14 @@ import { first, flatMap } from 'rxjs/operators';
 
 @Injectable()
 export class LoansGuard implements CanActivate {
-  constructor(private _router: Router, private _authenticationFacade: AuthenticationFacade) {}
+  constructor(private router: Router, private authenticationFacade: AuthenticationFacade) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this._authenticationFacade.getCanDisplayLoans().pipe(
+    return this.authenticationFacade.getCanDisplayLoans().pipe(
       first(),
       flatMap((result: boolean) => {
         if (!result) {
-          this._router.navigate(['/login']);
+          this.router.navigate(['/login']);
           return of(false);
         }
 

@@ -9,29 +9,29 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UsersService {
-  private _baseUrl: string;
+  private baseUrl: string;
 
-  constructor(private _http: HttpClient) {
-    this._baseUrl = environment.baseUrl;
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.baseUrl;
   }
 
   public getRoles(): Observable<IUserRole[]> {
-    return this._http.get<IUserRole[]>(`${this._baseUrl}/users/roles`);
+    return this.http.get<IUserRole[]>(`${this.baseUrl}/users/roles`);
   }
 
   public getUsers(): Observable<IUser[]> {
-    return this._http.get<IUser[]>(`${this._baseUrl}/users`);
+    return this.http.get<IUser[]>(`${this.baseUrl}/users`);
   }
 
   public getUser(userID): Observable<IUser> {
-    return this._http.get<IUser>(`${this._baseUrl}/users/${userID}`);
+    return this.http.get<IUser>(`${this.baseUrl}/users/${userID}`);
   }
 
   public deleteUser(userID: number): Observable<any> {
-    return this._http.delete(`${this._baseUrl}/users/${userID}`);
+    return this.http.delete(`${this.baseUrl}/users/${userID}`);
   }
 
   public updateUser(user: IUser): Observable<IUserUpdateResult> {
-    return this._http.post<IUserUpdateResult>(`${this._baseUrl}/users`, user);
+    return this.http.post<IUserUpdateResult>(`${this.baseUrl}/users`, user);
   }
 }

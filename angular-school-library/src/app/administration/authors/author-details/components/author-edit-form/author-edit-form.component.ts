@@ -29,10 +29,10 @@ export class AuthorEditFormComponent implements OnInit {
 
   public authorEditForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
-    this.authorEditForm = this._fb.group({
+    this.authorEditForm = this.formBuilder.group({
       authorID: [this.author.authorID],
       firstName: [this.author.firstName, [Validators.required, Validators.maxLength(50)]],
       lastName: [this.author.lastName, [Validators.required, Validators.maxLength(50)]],
@@ -40,7 +40,7 @@ export class AuthorEditFormComponent implements OnInit {
     });
   }
 
-  public save() {
+  public save(): void {
     for (const field in this.authorEditForm.controls) {
       const control = this.authorEditForm.get(field);
       control.markAsTouched( {onlySelf: true } );

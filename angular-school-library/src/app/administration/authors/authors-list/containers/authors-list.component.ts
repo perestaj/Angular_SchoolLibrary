@@ -15,50 +15,50 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['authors-list.component.css']
 })
 export class AuthorsListComponent implements OnInit, OnDestroy {
-  private _componentActive: boolean;
+  private componentActive: boolean;
 
   public sortCriteria$: Observable<ISortCriteria<AuthorSortColumns>>;
   public authorsSearchFilter$: Observable<IAuthorSearchFilter>;
   public filteredAuthors$: Observable<IAuthor[]>;
 
   constructor(
-    private _authorsFacade: AuthorsFacade,
-    private _appFacade: AppFacade) { }
+    private authorsFacade: AuthorsFacade,
+    private appFacade: AppFacade) { }
 
   public ngOnInit(): void {
-    this._componentActive = true;
+    this.componentActive = true;
 
-    this._appFacade.loadAuthors();
+    this.appFacade.loadAuthors();
 
-    this.authorsSearchFilter$ = this._authorsFacade.getAuthorsSearchFilter();
-    this.sortCriteria$ = this._authorsFacade.getSortCriteria();
-    this.filteredAuthors$ = this._authorsFacade.getFilteredAuthors();
+    this.authorsSearchFilter$ = this.authorsFacade.getAuthorsSearchFilter();
+    this.sortCriteria$ = this.authorsFacade.getSortCriteria();
+    this.filteredAuthors$ = this.authorsFacade.getFilteredAuthors();
 
-    this._authorsFacade.getAuthorDeletedShowInfo().pipe(takeWhile(() => this._componentActive))
+    this.authorsFacade.getAuthorDeletedShowInfo().pipe(takeWhile(() => this.componentActive))
     .subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('Author has been deleted successfully');
-        this._authorsFacade.deleteAuthorSuccessShowInfo(false);
-        this._appFacade.loadAuthors();
+        this.authorsFacade.deleteAuthorSuccessShowInfo(false);
+        this.appFacade.loadAuthors();
       }
     });
   }
 
   public ngOnDestroy(): void {
-    this._componentActive = false;
+    this.componentActive = false;
   }
 
   public deleteAuthor(authorID: number): void {
     if (window.confirm('Are you sure you want to delete this author?')) {
-      this._authorsFacade.deleteAuthor(authorID);
+      this.authorsFacade.deleteAuthor(authorID);
     }
   }
 
-  public filterAuthors(authorsSearchFilter: IAuthorSearchFilter) {
-    this._authorsFacade.filterAuthors(authorsSearchFilter);
+  public filterAuthors(authorsSearchFilter: IAuthorSearchFilter): void {
+    this.authorsFacade.filterAuthors(authorsSearchFilter);
   }
 
-  public sortAuthors(column: AuthorSortColumns) {
-    this._authorsFacade.sortAuthors(column);
+  public sortAuthors(column: AuthorSortColumns): void {
+    this.authorsFacade.sortAuthors(column);
   }
 }

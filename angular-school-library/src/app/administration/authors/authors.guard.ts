@@ -6,17 +6,17 @@ import { flatMap, first } from 'rxjs/operators';
 
 @Injectable()
 export class AuthorsGuard implements CanActivate {
-  constructor(private _router: Router, private _authenticationFacade: AuthenticationFacade) {}
+  constructor(private router: Router, private authenticationFacade: AuthenticationFacade) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      return this._authenticationFacade.getCanEditAuthors()
+      return this.authenticationFacade.getCanEditAuthors()
       .pipe(
           first(),
           flatMap((result: boolean) => {
             if (!result) {
-              this._router.navigate(['/login']);
+              this.router.navigate(['/login']);
               return of(false);
             }
 

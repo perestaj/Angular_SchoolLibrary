@@ -12,17 +12,18 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthorsEffects {
-  constructor(private _actions$: Actions,
-    private _authorsService: AuthorsService,
-    private _router: Router,
-    private _store: Store<any>) { }
+  constructor(
+    private actions$: Actions,
+    private authorsService: AuthorsService,
+    private router: Router,
+    private store: Store<any>) { }
 
     @Effect()
-    sortAuthors$ = this._actions$.pipe(
+    sortAuthors$ = this.actions$.pipe(
         ofType(authorsActions.ActionTypes.SortAuthors),
         pipe(
             map((action: authorsActions.SortAuthorsAction) => action.payload),
-            withLatestFrom(this._store.pipe(select(getAuthorsSortCriteria))),
+            withLatestFrom(this.store.pipe(select(getAuthorsSortCriteria))),
             switchMap(([column, oldCriteria]) => {
                 return of(new authorsActions.SortAuthorsSuccessAction({
                     sortColumn: column,
@@ -33,10 +34,10 @@ export class AuthorsEffects {
     );
 
     @Effect()
-    public loadAuthor$: Observable<Action> = this._actions$.pipe(
+    public loadAuthor$: Observable<Action> = this.actions$.pipe(
       ofType(authorsActions.ActionTypes.LoadAuthor),
       pipe(
-        withLatestFrom(this._store.pipe(select(getRouterParams))),
+        withLatestFrom(this.store.pipe(select(getRouterParams))),
         switchMap(([, params]) => {
           let id = 0;
 
@@ -45,7 +46,7 @@ export class AuthorsEffects {
           }
 
           return id > 0
-            ? this._authorsService
+            ? this.authorsService
                 .getAuthor(id)
                 .pipe(
                   map(
@@ -71,10 +72,10 @@ export class AuthorsEffects {
     );
 
   @Effect()
-  deleteAuthor$ = this._actions$.pipe(
+  deleteAuthor$ = this.actions$.pipe(
     ofType(authorsActions.ActionTypes.DeleteAuthor),
     mergeMap((action: authorsActions.DeleteAuthorAction) =>
-      this._authorsService
+      this.authorsService
         .deleteAuthor(action.payload)
         .pipe(
           map(() => new authorsActions.DeleteAuthorSuccessShowInfoAction(true)),
@@ -87,12 +88,12 @@ export class AuthorsEffects {
   );
 
   @Effect({ dispatch: false })
-  saveAuthor$ = this._actions$.pipe(
+  saveAuthor$ = this.actions$.pipe(
     ofType(authorsActions.ActionTypes.SaveAuthor),
     mergeMap((action: authorsActions.SaveAuthorAction) =>
-      this._authorsService
+      this.authorsService
         .updateAuthor(action.payload)
-        .pipe(tap(() => this._router.navigate(['/administration/authors'])),
+        .pipe(tap(() => this.router.navigate(['/administration/authors'])),
         catchError((err, caught) => {
           // error handled by http interceptor
           return EMPTY;

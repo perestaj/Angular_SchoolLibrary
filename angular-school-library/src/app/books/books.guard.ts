@@ -8,29 +8,29 @@ import { first, flatMap } from 'rxjs/operators';
 @Injectable()
 export class BooksGuard implements CanActivate {
   constructor(
-    private _router: Router,
-    private _authenticationFacade: AuthenticationFacade,
-    private _bookFacade: BookFacade) {}
+    private router: Router,
+    private authenticationFacade: AuthenticationFacade,
+    private bookFacade: BookFacade) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
       if (next.params && next.params.id && (+next.params.id) === 0) {
-        return this._authenticationFacade.getCanEditBook()
+        return this.authenticationFacade.getCanEditBook()
           .pipe(
             first(),
             flatMap((result: boolean) => {
               if (!result) {
-                this._router.navigate(['/login']);
+                this.router.navigate(['/login']);
                 return of (false);
               }
 
-              this._bookFacade.setIsEditMode(true);
+              this.bookFacade.setIsEditMode(true);
               return of (true);
             })
           );
       } else {
-        this._bookFacade.setIsEditMode(false);
+        this.bookFacade.setIsEditMode(false);
       }
 
       return true;

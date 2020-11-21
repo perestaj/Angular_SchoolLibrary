@@ -14,15 +14,15 @@ export class PublishersSearchPanelComponent implements OnInit {
 
   public publishersSearchPanelForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
-    this.publishersSearchPanelForm = this._fb.group({
+    this.publishersSearchPanelForm = this.formBuilder.group({
       name: this.publishersSearchFilter.name,
       address: this.publishersSearchFilter.address,
       additionalInformation: this.publishersSearchFilter.additionalInformation
     });
 
-    this.publishersSearchPanelForm.valueChanges.subscribe(value => this.filterPublishersList.emit(<IPublisherSearchFilter> value));
+    this.publishersSearchPanelForm.valueChanges.subscribe((value: IPublisherSearchFilter) => this.filterPublishersList.emit(value));
   }
 }

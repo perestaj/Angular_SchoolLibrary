@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['books-search-panel.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BooksSearchPanelComponent implements OnInit, OnChanges {
+export class BooksSearchPanelComponent implements OnChanges {
   @Input() filter: IBookSearchFilter;
   @Input() publishers: IPublisher[];
   @Input() authors: IAuthor[];
@@ -21,7 +21,7 @@ export class BooksSearchPanelComponent implements OnInit, OnChanges {
 
   public booksSearchPanelForm: FormGroup;
 
-  private _valueChangesSubscription: Subscription;
+  private valueChangesSubscription: Subscription;
 
   constructor(private _fb: FormBuilder) {
     this.booksSearchPanelForm = this._fb.group({
@@ -31,16 +31,14 @@ export class BooksSearchPanelComponent implements OnInit, OnChanges {
       onlyAvailable: false
     });
 
-    this._valueChangesSubscription = this.booksSearchPanelForm.valueChanges
-    .subscribe(value => this.filterBooksList.emit(<IBookSearchFilter>value));
+    this.valueChangesSubscription = this.booksSearchPanelForm.valueChanges
+    .subscribe(value => this.filterBooksList.emit(value as IBookSearchFilter));
   }
-
-  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.filter && changes.filter.currentValue) {
-      if (this._valueChangesSubscription) {
-        this._valueChangesSubscription.unsubscribe();
+      if (this.valueChangesSubscription) {
+        this.valueChangesSubscription.unsubscribe();
       }
 
       this.booksSearchPanelForm.patchValue({
@@ -50,8 +48,8 @@ export class BooksSearchPanelComponent implements OnInit, OnChanges {
         onlyAvailable: this.filter.onlyAvailable
       });
 
-      this._valueChangesSubscription = this.booksSearchPanelForm.valueChanges
-    .subscribe(value => this.filterBooksList.emit(<IBookSearchFilter>value));
+      this.valueChangesSubscription = this.booksSearchPanelForm.valueChanges
+    .subscribe(value => this.filterBooksList.emit(value as IBookSearchFilter));
     }
   }
 }

@@ -77,13 +77,13 @@ export class UserEditFormComponent implements OnInit {
     return this.userEditForm.get('role');
   }
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit() {
-    this.userEditForm = this._fb.group({
+  public ngOnInit(): void {
+    this.userEditForm = this.formBuilder.group({
       userID: [this.user.userID],
       userName: [this.user.userName, [Validators.required, Validators.maxLength(50)]],
-      passwordGroup: this._fb.group({
+      passwordGroup: this.formBuilder.group({
         password: ['', [Validators.maxLength(128), requiredPasswordValidator(this.user.userID)]],
         passwordConfirm: ['', [Validators.maxLength(128)]],
       }, { validator: passwordCompare }),
@@ -95,7 +95,7 @@ export class UserEditFormComponent implements OnInit {
     });
   }
 
-  public save() {
+  public save(): void {
     for (const field in this.userEditForm.controls) {
       const control = this.userEditForm.get(field);
       control.markAsTouched( {onlySelf: true } );

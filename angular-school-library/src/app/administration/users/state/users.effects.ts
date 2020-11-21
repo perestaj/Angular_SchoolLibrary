@@ -14,25 +14,28 @@ import { IUserRoleSearch, IUserSearchFilter } from '../models/users-search-filte
 
 @Injectable()
 export class UsersEffects {
-  constructor(private _actions$: Actions,
-    private _usersService: UsersService,
-    private _router: Router,
-    private _store: Store<any>) { }
+  constructor(
+    private actions$: Actions,
+    private usersService: UsersService,
+    private router: Router,
+    private store: Store<any>) { }
 
     @Effect()
-    loadDefaultSearchFilter$ = this._actions$.pipe(
+    loadDefaultSearchFilter$ = this.actions$.pipe(
         ofType(usersActions.ActionTypes.LoadDefaultSearchFilter),
-        withLatestFrom(this._store.pipe(select(getUsersSearchFilter))),
+        withLatestFrom(this.store.pipe(select(getUsersSearchFilter))),
         switchMap(([, filter]) => {
           if (!filter || !filter.userRoles || filter.userRoles.findIndex(x => x.id === 0) > -1) {
-            return this._usersService.getRoles().pipe(
+            return this.usersService.getRoles().pipe(
               map((roles: IUserRole[]) => {
 
-              const userRoleSearchFilter = roles.map(role => <IUserRoleSearch>{
-                  id: role.id,
-                  name: role.name,
-                  selected: true
-              });
+              const userRoleSearchFilter = roles.map(role => {
+                  return {
+                    id: role.id,
+                    name: role.name,
+                    selected: true
+                  };
+                });
 
               const defaultFilter: IUserSearchFilter = {
                 fullName: '',
@@ -50,9 +53,9 @@ export class UsersEffects {
     );
 
     @Effect()
-    loadRoles$ = this._actions$.pipe(
+    loadRoles$ = this.actions$.pipe(
       ofType(usersActions.ActionTypes.LoadRoles),
-      mergeMap(() => this._usersService.getRoles().pipe(
+      mergeMap(() => this.usersService.getRoles().pipe(
         map((roles: IUserRole[]) => new usersActions.LoadRolesSuccessAction(roles)),
         catchError((err, caught) => {
           // error handled by http interceptor
@@ -62,9 +65,9 @@ export class UsersEffects {
     ));
 
     @Effect()
-    loadUsers$ = this._actions$.pipe(
+    loadUsers$ = this.actions$.pipe(
         ofType(usersActions.ActionTypes.LoadUsers),
-        mergeMap(() => this._usersService.getUsers().pipe(
+        mergeMap(() => this.usersService.getUsers().pipe(
             map((users: IUser[]) => new usersActions.LoadUsersSuccessAction(users)),
             catchError((err, caught) => {
               // error handled by http interceptor
@@ -74,11 +77,11 @@ export class UsersEffects {
     ));
 
     @Effect()
-    sortUsers$ = this._actions$.pipe(
+    sortUsers$ = this.actions$.pipe(
         ofType(usersActions.ActionTypes.SortUsers),
         pipe(
             map((action: usersActions.SortUsersAction) => action.payload),
-            withLatestFrom(this._store.pipe(select(getUsersSortCriteria))),
+            withLatestFrom(this.store.pipe(select(getUsersSortCriteria))),
             switchMap(([column, oldCriteria]) => {
                 return of(new usersActions.SortUsersSuccessAction({
                     sortColumn: column,
@@ -89,10 +92,10 @@ export class UsersEffects {
     );
 
     @Effect()
-    public loadUser$: Observable<Action> = this._actions$.pipe(
+    public loadUser$: Observable<Action> = this.actions$.pipe(
       ofType(usersActions.ActionTypes.LoadUser),
       pipe(
-        withLatestFrom(this._store.pipe(select(getRouterParams))),
+        withLatestFrom(this.store.pipe(select(getRouterParams))),
         switchMap(([, params]) => {
           let id = 0;
 
@@ -101,7 +104,7 @@ export class UsersEffects {
           }
 
           return id > 0
-            ? this._usersService
+            ? this.usersService
                 .getUser(id)
                 .pipe(
                   map(
@@ -133,10 +136,10 @@ export class UsersEffects {
     );
 
   @Effect()
-  deleteUser$ = this._actions$.pipe(
+  deleteUser$ = this.actions$.pipe(
     ofType(usersActions.ActionTypes.DeleteUser),
     mergeMap((action: usersActions.DeleteUserAction) =>
-      this._usersService
+      this.usersService
         .deleteUser(action.payload)
         .pipe(
           map(() => new usersActions.DeleteUserSuccessShowInfoAction(true)),
@@ -149,12 +152,12 @@ export class UsersEffects {
   );
 
   @Effect({ dispatch: false })
-  saveUser$ = this._actions$.pipe(
+  saveUser$ = this.actions$.pipe(
     ofType(usersActions.ActionTypes.SaveUser),
     mergeMap((action: usersActions.SaveUserAction) =>
-      this._usersService
+      this.usersService
         .updateUser(action.payload)
-        .pipe(tap(() => this._router.navigate(['/administration/users'])),
+        .pipe(tap(() => this.router.navigate(['/administration/users'])),
         catchError((err, caught) => {
           // error handled by http interceptor
           return EMPTY;

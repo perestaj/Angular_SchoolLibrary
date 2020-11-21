@@ -39,12 +39,12 @@ export class BookEditFormComponent implements OnInit {
 
   public bookEditForm: FormGroup;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) {
     this.maxDate = new Date();
   }
 
   public ngOnInit(): void {
-    this.bookEditForm = this._fb.group({
+    this.bookEditForm = this.formBuilder.group({
       bookID: [this.book.bookID],
       title: [this.book.title, [Validators.required, Validators.maxLength(100)]],
       authorIds: [this.book.authorIds, Validators.required],
@@ -53,7 +53,7 @@ export class BookEditFormComponent implements OnInit {
     });
   }
 
-  public save() {
+  public save(): void {
     for (const field in this.bookEditForm.controls) {
       const control = this.bookEditForm.get(field);
       control.markAsTouched( {onlySelf: true } );

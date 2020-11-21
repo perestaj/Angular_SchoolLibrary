@@ -8,7 +8,7 @@ import { AuthorSortColumns } from '../../../models/author-sort-columns';
   styleUrls: ['authors-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthorsTableComponent implements OnInit {
+export class AuthorsTableComponent {
   @Input() authors: IAuthor[];
   @Input() sortColumn: string;
 
@@ -18,6 +18,4 @@ export class AuthorsTableComponent implements OnInit {
   public authorColumns = AuthorSortColumns;
 
   constructor() { }
-
-  ngOnInit() { }
 }

@@ -12,21 +12,21 @@ const AUTHORIZATION_DATA_LOCAL_STORAGE_KEY = 'AUTHORIZATION_DATA';
 
 @Injectable()
 export class AuthenticationService {
-  private _baseUrl: string;
+  private baseUrl: string;
 
-  constructor(private _http: HttpClient) {
-    this._baseUrl = environment.baseUrl;
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.baseUrl;
   }
 
   public authorizeFromLocalStorage(): ICurrentUser {
     const data = localStorage.getItem(AUTHORIZATION_DATA_LOCAL_STORAGE_KEY);
 
-    return !!data && data.length > 0 && <ICurrentUser>JSON.parse(data);
+    return !!data && data.length > 0 && JSON.parse(data) as ICurrentUser;
   }
 
   public login(loginData: ILogin): Observable<ICurrentUser> {
-    return this._http.post<ICurrentUser>(
-      `${this._baseUrl}/users/token?userName=${loginData.username}&password=${loginData.password}`, null)
+    return this.http.post<ICurrentUser>(
+      `${this.baseUrl}/users/token?userName=${loginData.username}&password=${loginData.password}`, null)
       .pipe(
         tap((response: ICurrentUser) => {
             localStorage.setItem(AUTHORIZATION_DATA_LOCAL_STORAGE_KEY, JSON.stringify(response));
@@ -34,7 +34,7 @@ export class AuthenticationService {
       );
   }
 
-  public logOff() {
+  public logOff(): void {
     localStorage.removeItem(AUTHORIZATION_DATA_LOCAL_STORAGE_KEY);
   }
 

@@ -7,10 +7,10 @@ import { AuthenticationFacade } from './state/authentication.facade';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
-  constructor(private _authenticationFacade: AuthenticationFacade, private _router: Router) { }
+  constructor(private authenticationFacade: AuthenticationFacade, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this._authenticationFacade.getCurrentUser().pipe(
+    return this.authenticationFacade.getCurrentUser().pipe(
         first(),
         flatMap(currentUser => {
             const authReq = !!currentUser ? req.clone({
@@ -23,7 +23,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                         (error: any) => {
                             if (error instanceof HttpErrorResponse) {
                                 if (error.status === 401 || error.status === 403) {
-                                    this._router.navigate(['/login']);
+                                    this.router.navigate(['/login']);
                                 }
                             }
                         }

@@ -13,16 +13,17 @@ import { ICurrentUser } from 'src/app/administration/users/models/current-user.m
 export class LoginInfoComponent implements OnInit {
   public currentUser$: Observable<ICurrentUser>;
 
-  constructor(private _authenticationFacade: AuthenticationFacade,
-    private _router: Router) { }
+  constructor(
+    private authenticationFacade: AuthenticationFacade,
+    private router: Router) { }
 
   public ngOnInit(): void {
-    this.currentUser$ = this._authenticationFacade.getCurrentUser();
+    this.currentUser$ = this.authenticationFacade.getCurrentUser();
   }
 
   public logoff(): void {
-    this._authenticationFacade.logOff();
-    this._router.navigate(['/home']);
+    this.authenticationFacade.logOff();
+    this.router.navigate(['/home']);
   }
 
 }

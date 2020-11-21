@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { IBook } from '../../../models/book.model';
 
 import * as statuses from '../../../../shared/models/book-statuses';
@@ -10,7 +10,7 @@ import { BookSortColumns } from '../../../models/book-sort-columns';
   styleUrls: ['books-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BooksTableComponent implements OnInit {
+export class BooksTableComponent {
   @Input() books: IBook[];
   @Input() sortColumn: string;
   @Input() showRequestBook: boolean;
@@ -24,6 +24,4 @@ export class BooksTableComponent implements OnInit {
   public bookSortColumns = BookSortColumns;
 
   constructor() { }
-
-  ngOnInit() { }
 }

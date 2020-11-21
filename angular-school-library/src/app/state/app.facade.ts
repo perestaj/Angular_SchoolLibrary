@@ -8,21 +8,21 @@ import { IAuthor } from '../shared/models/author.model';
 
 @Injectable()
 export class AppFacade {
-  constructor(private _store: Store<IMainState>) {}
+  constructor(private store: Store<IMainState>) {}
 
   public loadPublishers(): void {
-    this._store.dispatch(new appActions.LoadPublishersAction());
+    this.store.dispatch(new appActions.LoadPublishersAction());
   }
 
   public loadAuthors(): void {
-    this._store.dispatch(new appActions.LoadAuthorsAction());
+    this.store.dispatch(new appActions.LoadAuthorsAction());
   }
 
   public getPublishers(): Observable<IPublisher[]> {
-    return this._store.pipe(select(getPublishers));
+    return this.store.pipe(select(getPublishers));
   }
 
   public getAuthors(): Observable<IAuthor[]> {
-    return this._store.pipe(select(getAuthors));
+    return this.store.pipe(select(getAuthors));
   }
 }

@@ -10,23 +10,24 @@ import { of } from 'rxjs';
 
 @Injectable()
 export class MainEffects {
-    constructor(private _actions$: Actions,
-        private _publishersService: PublishersService,
-        private _authorsService: AuthorsService) { }
+    constructor(
+      private actions$: Actions,
+      private publishersService: PublishersService,
+      private authorsService: AuthorsService) { }
 
     @Effect()
-    loadPublishers$ = this._actions$.pipe(
+    loadPublishers$ = this.actions$.pipe(
         ofType(mainActions.ActionTypes.LoadPublishers),
-        mergeMap((action: mainActions.LoadPublishersAction) => this._publishersService.getPublishers().pipe(
+        mergeMap((action: mainActions.LoadPublishersAction) => this.publishersService.getPublishers().pipe(
             map((publishers: IPublisher[]) => new mainActions.LoadPublishersSuccessAction(publishers)),
             catchError(err => of(new mainActions.ErrorOccurredAction()))
         ))
     );
 
     @Effect()
-    loadAuthors$ = this._actions$.pipe(
+    loadAuthors$ = this.actions$.pipe(
         ofType(mainActions.ActionTypes.LoadAuthors),
-        mergeMap((action: mainActions.LoadAuthorsAction) => this._authorsService.getAuthors().pipe(
+        mergeMap((action: mainActions.LoadAuthorsAction) => this.authorsService.getAuthors().pipe(
             map((authors: IAuthor[]) => new mainActions.LoadAuthorsSuccessAction(authors)),
             catchError(err => of(new mainActions.ErrorOccurredAction()))
         ))

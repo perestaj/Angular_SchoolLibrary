@@ -11,13 +11,13 @@ import * as bookSelectors from './book.reducer';
 
 @Injectable()
 export class BookFacade {
-  constructor(private _store: Store<bookSelectors.IBookState>) {}
+  constructor(private store: Store<bookSelectors.IBookState>) {}
 
   public getBooks(): Observable<IBook[]> {
     return combineLatest(
-      this._store.pipe(select(bookSelectors.getBooks)),
-      this._store.pipe(select(bookSelectors.getBooksSearchFilter)),
-      this._store.pipe(select(bookSelectors.getBooksSortCriteria))
+      this.store.pipe(select(bookSelectors.getBooks)),
+      this.store.pipe(select(bookSelectors.getBooksSearchFilter)),
+      this.store.pipe(select(bookSelectors.getBooksSortCriteria))
     ).pipe(
         map(([books, searchFilter, sortCriteria]) => {
             const filteredBooks = this.filter(books, searchFilter);
@@ -29,71 +29,71 @@ export class BookFacade {
   }
 
   public getSortCriteria(): Observable<ISortCriteria<BookSortColumns>> {
-      return this._store.pipe(select(bookSelectors.getBooksSortCriteria));
+      return this.store.pipe(select(bookSelectors.getBooksSortCriteria));
   }
 
   public getBooksSearchFilter(): Observable<IBookSearchFilter> {
-    return this._store.pipe(select(bookSelectors.getBooksSearchFilter));
+    return this.store.pipe(select(bookSelectors.getBooksSearchFilter));
   }
 
   public filterBooks(booksSearchFilter: IBookSearchFilter): void {
-    this._store.dispatch(new bookActions.FilterBooksAction(booksSearchFilter));
+    this.store.dispatch(new bookActions.FilterBooksAction(booksSearchFilter));
   }
 
   public sortBooks(column: BookSortColumns): void {
-    this._store.dispatch(new bookActions.SortBooksAction(column));
+    this.store.dispatch(new bookActions.SortBooksAction(column));
   }
 
   public requestBook(bookID: number): void {
-    this._store.dispatch(new bookActions.RequestBookAction(bookID));
+    this.store.dispatch(new bookActions.RequestBookAction(bookID));
   }
 
   public deleteBook(bookID: number): void {
-    this._store.dispatch(new bookActions.DeleteBookAction(bookID));
+    this.store.dispatch(new bookActions.DeleteBookAction(bookID));
   }
 
   public getBookRequestedShowInfo(): Observable<boolean> {
-    return this._store.pipe(select(bookSelectors.getBookRequestedShowInfo));
+    return this.store.pipe(select(bookSelectors.getBookRequestedShowInfo));
   }
 
   public loadBooks(): void {
-    this._store.dispatch(new bookActions.LoadBooksAction());
+    this.store.dispatch(new bookActions.LoadBooksAction());
   }
 
   public requestBookSuccessShowInfo(show: boolean): void {
-    this._store.dispatch(new bookActions.RequestBookSuccessShowInfoAction(show));
+    this.store.dispatch(new bookActions.RequestBookSuccessShowInfoAction(show));
   }
 
   public getBookDeletedShowInfo(): Observable<boolean> {
-    return this._store.pipe(select(bookSelectors.getBookDeletedShowInfo));
+    return this.store.pipe(select(bookSelectors.getBookDeletedShowInfo));
   }
 
   public deleteBookSuccessShowInfo(show: boolean): void {
-    this._store.dispatch(new bookActions.DeleteBookSuccessShowInfoAction(show));
+    this.store.dispatch(new bookActions.DeleteBookSuccessShowInfoAction(show));
   }
 
   public loadBook(): void {
-    this._store.dispatch(new bookActions.LoadBookAction());
+    this.store.dispatch(new bookActions.LoadBookAction());
   }
 
   public getBook(): Observable<IBook> {
-      return this._store.pipe(select(bookSelectors.getBook));
+      return this.store.pipe(select(bookSelectors.getBook));
   }
 
   public clearBook(): void {
-    this._store.dispatch(new bookActions.ClearBookAction);
+    this.store.dispatch(new bookActions.ClearBookAction());
   }
 
   public save(book: IBook): void {
-    this._store.dispatch(new bookActions.SaveBookAction(book));
+    this.store.dispatch(new bookActions.SaveBookAction(book));
   }
 
   public getIsEditMode(): Observable<boolean> {
-      return this._store.pipe(select(bookSelectors.getIsEditMode));
+      return this.store.pipe(select(bookSelectors.getIsEditMode));
   }
 
   public setIsEditMode(isEditMode: boolean): void {
-      this._store.dispatch(new bookActions.SetEditModeAction(isEditMode));
+      this.store.dispatch(new bookActions.SetEditModeAction(isEditMode));
   }
 
   private filter(
@@ -129,7 +129,7 @@ export class BookFacade {
     });
   }
 
-  private sort(books: IBook[], column: string, booksSortDesc: boolean) {
+  private sort(books: IBook[], column: string, booksSortDesc: boolean): void {
     books.sort((first, second) => {
       let firstField: any;
       let secondField: any;

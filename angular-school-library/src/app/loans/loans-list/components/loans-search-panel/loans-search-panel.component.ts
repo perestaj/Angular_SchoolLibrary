@@ -16,7 +16,7 @@ export class LoansSearchPanelComponent implements OnInit {
   public loansSearchPanelForm: FormGroup;
 
   get statuses(): FormArray {
-    return <FormArray>this.loansSearchPanelForm.get('bookStatuses');
+    return this.loansSearchPanelForm.get('bookStatuses') as FormArray;
   }
 
   constructor(private _fb: FormBuilder) {
@@ -29,7 +29,7 @@ export class LoansSearchPanelComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.filter) {
-      const bookStatusesFormArray = <FormArray>this.loansSearchPanelForm.get('bookStatuses');
+      const bookStatusesFormArray = this.loansSearchPanelForm.get('bookStatuses') as FormArray;
 
       this.filter.bookStatuses.forEach(status => bookStatusesFormArray.push(this.buildBookStatusGroup()));
     }
@@ -41,7 +41,7 @@ export class LoansSearchPanelComponent implements OnInit {
     });
 
     this.loansSearchPanelForm.valueChanges
-        .subscribe(value => this.filterLoansList.emit(<ILoanSearchFilter>value));
+        .subscribe(value => this.filterLoansList.emit(value as ILoanSearchFilter));
   }
 
   private buildBookStatusGroup(): FormGroup {

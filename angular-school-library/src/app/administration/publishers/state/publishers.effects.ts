@@ -12,17 +12,18 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class PublishersEffects {
-  constructor(private _actions$: Actions,
-    private _PublishersService: PublishersService,
-    private _router: Router,
-    private _store: Store<any>) { }
+  constructor(
+    private actions$: Actions,
+    private publishersService: PublishersService,
+    private router: Router,
+    private store: Store<any>) { }
 
     @Effect()
-    sortPublishers$ = this._actions$.pipe(
+    sortPublishers$ = this.actions$.pipe(
         ofType(PublishersActions.ActionTypes.SortPublishers),
         pipe(
             map((action: PublishersActions.SortPublishersAction) => action.payload),
-            withLatestFrom(this._store.pipe(select(getPublishersSortCriteria))),
+            withLatestFrom(this.store.pipe(select(getPublishersSortCriteria))),
             switchMap(([column, oldCriteria]) => {
                 return of(new PublishersActions.SortPublishersSuccessAction({
                     sortColumn: column,
@@ -33,10 +34,10 @@ export class PublishersEffects {
     );
 
     @Effect()
-    public loadPublisher$: Observable<Action> = this._actions$.pipe(
+    public loadPublisher$: Observable<Action> = this.actions$.pipe(
       ofType(PublishersActions.ActionTypes.LoadPublisher),
       pipe(
-        withLatestFrom(this._store.pipe(select(getRouterParams))),
+        withLatestFrom(this.store.pipe(select(getRouterParams))),
         switchMap(([, params]) => {
           let id = 0;
 
@@ -45,7 +46,7 @@ export class PublishersEffects {
           }
 
           return id > 0
-            ? this._PublishersService
+            ? this.publishersService
                 .getPublisher(id)
                 .pipe(
                   map(
@@ -70,10 +71,10 @@ export class PublishersEffects {
     );
 
   @Effect()
-  deletePublisher$ = this._actions$.pipe(
+  deletePublisher$ = this.actions$.pipe(
     ofType(PublishersActions.ActionTypes.DeletePublisher),
     mergeMap((action: PublishersActions.DeletePublisherAction) =>
-      this._PublishersService
+      this.publishersService
         .deletePublisher(action.payload)
         .pipe(
           map(() => new PublishersActions.DeletePublisherSuccessShowInfoAction(true)),
@@ -86,12 +87,12 @@ export class PublishersEffects {
   );
 
   @Effect({ dispatch: false })
-  savePublisher$ = this._actions$.pipe(
+  savePublisher$ = this.actions$.pipe(
     ofType(PublishersActions.ActionTypes.SavePublisher),
     mergeMap((action: PublishersActions.SavePublisherAction) =>
-      this._PublishersService
+      this.publishersService
         .updatePublisher(action.payload)
-        .pipe(tap(() => this._router.navigate(['/administration/publishers'])),
+        .pipe(tap(() => this.router.navigate(['/administration/publishers'])),
         catchError((err, caught) => {
           // error handled by http interceptor
           return EMPTY;

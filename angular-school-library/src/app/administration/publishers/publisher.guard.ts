@@ -7,31 +7,31 @@ import { PublishersFacade } from './state/publishers.facade';
 
 @Injectable()
 export class PublisherGuard implements CanActivate {
-  constructor(private _router: Router,
-    private _authenticationFacade: AuthenticationFacade,
-    private _publishersFacade: PublishersFacade) {}
+  constructor(
+    private router: Router,
+    private authenticationFacade: AuthenticationFacade,
+    private publishersFacade: PublishersFacade) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      return this._authenticationFacade.getCanEditPublishers()
+      return this.authenticationFacade.getCanEditPublishers()
       .pipe(
           first(),
           flatMap((result: boolean) => {
             if (!result) {
-              this._router.navigate(['/login']);
+              this.router.navigate(['/login']);
               return of(false);
             }
 
             const id = next.paramMap.get('id');
             if (isNaN(parseInt(id, 10))) {
-              this._router.navigate(['/administration/publishers']);
+              this.router.navigate(['/administration/publishers']);
               return of(false);
             }
 
-            this._publishersFacade.setIsEditMode( +id === 0);
-
-          return of(true);
+            this.publishersFacade.setIsEditMode( +id === 0);
+            return of(true);
           }));
   }
 }

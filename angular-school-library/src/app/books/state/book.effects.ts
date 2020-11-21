@@ -6,7 +6,7 @@ import * as bookActions from './book.actions';
 import { IBook } from '../models/book.model';
 import { LoansService } from '../../loans/loans.service';
 import { Router } from '@angular/router';
-import { of, Observable, pipe, empty, EMPTY } from 'rxjs';
+import { of, Observable, pipe, EMPTY } from 'rxjs';
 import { getRouterParams } from 'src/app/state/app.reducer';
 import { Action, Store, select } from '@ngrx/store';
 import { getBooksSortCriteria } from './book.reducer';
@@ -14,17 +14,17 @@ import { getBooksSortCriteria } from './book.reducer';
 @Injectable()
 export class BookEffects {
   constructor(
-    private _actions$: Actions,
-    private _bookService: BooksService,
-    private _loanService: LoansService,
-    private _router: Router,
-    private _store: Store<any>
+    private actions$: Actions,
+    private bookService: BooksService,
+    private loanService: LoansService,
+    private router: Router,
+    private store: Store<any>
   ) {}
 
   @Effect()
-  loadBooks$ = this._actions$.pipe(
+  loadBooks$ = this.actions$.pipe(
     ofType(bookActions.ActionTypes.LoadBooks),
-    mergeMap(() => this._bookService
+    mergeMap(() => this.bookService
         .getBooks()
         .pipe(
           map((books: IBook[]) => new bookActions.LoadBooksSuccessAction(books)),
@@ -37,11 +37,11 @@ export class BookEffects {
   );
 
   @Effect()
-  sortBooks$ = this._actions$.pipe(
+  sortBooks$ = this.actions$.pipe(
       ofType(bookActions.ActionTypes.SortBooks),
       pipe(
           map((action: bookActions.SortBooksAction) => action.payload),
-          withLatestFrom(this._store.pipe(select(getBooksSortCriteria))),
+          withLatestFrom(this.store.pipe(select(getBooksSortCriteria))),
           switchMap(([column, oldCriteria]) => {
               return of(new bookActions.SortBooksSuccessAction({
                   sortColumn: column,
@@ -52,10 +52,10 @@ export class BookEffects {
   );
 
   @Effect()
-  public loadBook$: Observable<Action> = this._actions$.pipe(
+  public loadBook$: Observable<Action> = this.actions$.pipe(
     ofType(bookActions.ActionTypes.LoadBook),
     pipe(
-      withLatestFrom(this._store.pipe(select(getRouterParams))),
+      withLatestFrom(this.store.pipe(select(getRouterParams))),
       switchMap(([, params]) => {
         let id = 0;
 
@@ -64,7 +64,7 @@ export class BookEffects {
         }
 
         return id > 0
-          ? this._bookService
+          ? this.bookService
               .getBook(id)
               .pipe(
                 map(
@@ -94,10 +94,10 @@ export class BookEffects {
   );
 
   @Effect()
-  requestBook$ = this._actions$.pipe(
+  requestBook$ = this.actions$.pipe(
     ofType(bookActions.ActionTypes.RequestBook),
     mergeMap((action: bookActions.RequestBookAction) =>
-      this._loanService
+      this.loanService
         .requestBook(action.payload)
         .pipe(
           map(() => new bookActions.RequestBookSuccessShowInfoAction(true)),
@@ -110,10 +110,10 @@ export class BookEffects {
   );
 
   @Effect()
-  deleteBook$ = this._actions$.pipe(
+  deleteBook$ = this.actions$.pipe(
     ofType(bookActions.ActionTypes.DeleteBook),
     mergeMap((action: bookActions.DeleteBookAction) =>
-      this._bookService
+      this.bookService
         .deleteBook(action.payload)
         .pipe(
           map(() => new bookActions.DeleteBookSuccessShowInfoAction(true)),
@@ -126,13 +126,13 @@ export class BookEffects {
   );
 
   @Effect({ dispatch: false })
-  saveBook$ = this._actions$.pipe(
+  saveBook$ = this.actions$.pipe(
     ofType(bookActions.ActionTypes.SaveBook),
     mergeMap((action: bookActions.SaveBookAction) =>
-      this._bookService
+      this.bookService
         .updateBook(action.payload)
         .pipe(
-          tap(() => this._router.navigate(['/books'])),
+          tap(() => this.router.navigate(['/books'])),
           catchError((err, caught) => {
             // error handled by http interceptor
             return EMPTY;

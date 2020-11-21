@@ -9,7 +9,7 @@ import { PublisherSortColumns } from '../../../models/publisher-sort-columns';
   styleUrls: ['publishers-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PublishersTableComponent implements OnInit {
+export class PublishersTableComponent {
   @Input() publishers: IPublisher[];
   @Input() sortColumn: string;
 
@@ -19,8 +19,4 @@ export class PublishersTableComponent implements OnInit {
   public publisherColumns = PublisherSortColumns;
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

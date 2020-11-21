@@ -22,7 +22,7 @@ import { AuthenticationFacade } from 'src/app/authentication/state/authenticatio
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BooksListComponent implements OnInit, OnDestroy {
-  private _componentActive: boolean;
+  private componentActive: boolean;
 
   public publishers$: Observable<IPublisher[]>;
   public authors$: Observable<IAuthor[]>;
@@ -36,73 +36,73 @@ export class BooksListComponent implements OnInit, OnDestroy {
   public showAddButton$: Observable<boolean>;
 
   constructor(
-    private _appFacade: AppFacade,
-    private _bookFacade: BookFacade,
-    private _authenticationFacade: AuthenticationFacade,
+    private appFacade: AppFacade,
+    private bookFacade: BookFacade,
+    private authenticationFacade: AuthenticationFacade,
     ) {
-    this.showRequestBook$ = this._authenticationFacade.getCanRequestBook();
-    this.showDeleteButton$ = this._authenticationFacade.getCanDeleteBook();
-    this.showAddButton$ = this._authenticationFacade.getCanAddBook();
+    this.showRequestBook$ = this.authenticationFacade.getCanRequestBook();
+    this.showDeleteButton$ = this.authenticationFacade.getCanDeleteBook();
+    this.showAddButton$ = this.authenticationFacade.getCanAddBook();
   }
 
   public ngOnInit(): void {
-    this._componentActive = true;
+    this.componentActive = true;
 
-    this._appFacade.loadPublishers();
-    this._appFacade.loadAuthors();
+    this.appFacade.loadPublishers();
+    this.appFacade.loadAuthors();
 
-    this._bookFacade.loadBooks();
+    this.bookFacade.loadBooks();
 
-    this.booksSearchFilter$ = this._bookFacade.getBooksSearchFilter();
-    this.filteredBooks$ = this._bookFacade.getBooks();
+    this.booksSearchFilter$ = this.bookFacade.getBooksSearchFilter();
+    this.filteredBooks$ = this.bookFacade.getBooks();
 
-    this.publishers$ = this._appFacade.getPublishers();
-    this.authors$ = this._appFacade.getAuthors();
+    this.publishers$ = this.appFacade.getPublishers();
+    this.authors$ = this.appFacade.getAuthors();
 
-    this.sortCriteria$ = this._bookFacade.getSortCriteria();
+    this.sortCriteria$ = this.bookFacade.getSortCriteria();
 
-    this._bookFacade.getBookRequestedShowInfo().pipe(
-      takeWhile(() => this._componentActive)
+    this.bookFacade.getBookRequestedShowInfo().pipe(
+      takeWhile(() => this.componentActive)
     )
     .subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('Book request has been sent successfully');
-        this._bookFacade.requestBookSuccessShowInfo(false);
-        this._bookFacade.loadBooks();
+        this.bookFacade.requestBookSuccessShowInfo(false);
+        this.bookFacade.loadBooks();
       }
     });
 
-    this._bookFacade.getBookDeletedShowInfo().pipe(takeWhile(() => this._componentActive))
+    this.bookFacade.getBookDeletedShowInfo().pipe(takeWhile(() => this.componentActive))
     .subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('Book has been deleted successfully');
-        this._bookFacade.deleteBookSuccessShowInfo(false);
-        this._bookFacade.loadBooks();
+        this.bookFacade.deleteBookSuccessShowInfo(false);
+        this.bookFacade.loadBooks();
       }
     });
   }
 
   public ngOnDestroy(): void {
-    this._componentActive = false;
+    this.componentActive = false;
   }
 
   public filterBooks(booksSearchFilter: IBookSearchFilter): void {
-    this._bookFacade.filterBooks(booksSearchFilter);
+    this.bookFacade.filterBooks(booksSearchFilter);
   }
 
   public sortBooks(column: BookSortColumns): void {
-    this._bookFacade.sortBooks(column);
+    this.bookFacade.sortBooks(column);
   }
 
   public requestBook(bookID: number): void {
     if (window.confirm('Are you sure you want to borrow this book?')) {
-      this._bookFacade.requestBook(bookID);
+      this.bookFacade.requestBook(bookID);
     }
   }
 
   public deleteBook(bookID: number): void {
     if (window.confirm('Are you sure you want to delete this book?')) {
-      this._bookFacade.deleteBook(bookID);
+      this.bookFacade.deleteBook(bookID);
     }
   }
 }

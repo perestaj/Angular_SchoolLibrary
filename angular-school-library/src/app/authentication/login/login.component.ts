@@ -17,18 +17,18 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   public invalidUsernamePassword$: Observable<boolean>;
 
-  constructor(private _authenticationFacade: AuthenticationFacade) { }
+  constructor(private authenticationFacade: AuthenticationFacade) { }
 
   public ngOnInit(): void {
     const username = new FormControl('', Validators.required);
     const password = new FormControl('', Validators.required);
 
     this.loginForm = new FormGroup({
-      username: username,
-      password: password
+      username,
+      password
     });
 
-    this.invalidUsernamePassword$ = this._authenticationFacade.getInvalidUsernamePassword()
+    this.invalidUsernamePassword$ = this.authenticationFacade.getInvalidUsernamePassword()
       .pipe(tap((result: boolean) => {
         if (result) {
           this.loginForm.patchValue( { password: '' } );
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.loginForm.valid) {
-      this._authenticationFacade.login(loginData);
+      this.authenticationFacade.login(loginData);
     }
   }
 }

@@ -7,29 +7,29 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class BooksService {
-  private _baseUrl: string;
+  private baseUrl: string;
 
-  constructor(private _http: HttpClient) {
-    this._baseUrl = environment.baseUrl;
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.baseUrl;
   }
 
   public getBookStatuses(): Observable<IBookStatus[]> {
-    return this._http.get<IBookStatus[]>(`${this._baseUrl}/books/statuses`);
+    return this.http.get<IBookStatus[]>(`${this.baseUrl}/books/statuses`);
   }
 
   public getBooks(): Observable<IBook[]> {
-    return this._http.get<IBook[]>(`${this._baseUrl}/books`);
+    return this.http.get<IBook[]>(`${this.baseUrl}/books`);
   }
 
   public getBook(bookID): Observable<IBook> {
-    return this._http.get<IBook>(`${this._baseUrl}/books/${bookID}`);
+    return this.http.get<IBook>(`${this.baseUrl}/books/${bookID}`);
   }
 
   public deleteBook(bookID: number): Observable<any> {
-    return this._http.delete(`${this._baseUrl}/books/${bookID}`);
+    return this.http.delete(`${this.baseUrl}/books/${bookID}`);
   }
 
   public updateBook(book: IBook): Observable<any> {
-    return this._http.post(`${this._baseUrl}/books`, book);
+    return this.http.post(`${this.baseUrl}/books`, book);
   }
 }

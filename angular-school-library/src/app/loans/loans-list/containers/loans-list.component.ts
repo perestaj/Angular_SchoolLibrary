@@ -18,80 +18,80 @@ import { takeWhile } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoansListComponent implements OnInit, OnDestroy {
-  private _componentActive: boolean;
+  private componentActive: boolean;
 
   public loansSearchFilter$: Observable<ILoanSearchFilter>;
   public filteredLoans$: Observable<ILoan[]>;
   public sortCriteria$: Observable<ISortCriteria<LoanSortColumns>>;
 
-  constructor(private _loansFacade: LoansFacade) { }
+  constructor(private loansFacade: LoansFacade) { }
 
   public ngOnInit(): void {
-    this._componentActive = true;
+    this.componentActive = true;
 
-    this._loansFacade.loadDefaultSearchFilter();
-    this._loansFacade.loadLoans();
+    this.loansFacade.loadDefaultSearchFilter();
+    this.loansFacade.loadLoans();
 
-    this.sortCriteria$ = this._loansFacade.getLoansSortCriteria();
-    this.loansSearchFilter$ = this._loansFacade.getLoansSearchFilter();
+    this.sortCriteria$ = this.loansFacade.getLoansSortCriteria();
+    this.loansSearchFilter$ = this.loansFacade.getLoansSearchFilter();
 
-    this.filteredLoans$ = this._loansFacade.getLoans();
+    this.filteredLoans$ = this.loansFacade.getLoans();
 
-    this._loansFacade.getLendBookShowInfo().pipe(
-      takeWhile(() => this._componentActive)
+    this.loansFacade.getLendBookShowInfo().pipe(
+      takeWhile(() => this.componentActive)
     ).subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('The status has been changed successfully');
-        this._loansFacade.setLendBookShowInfo(false);
+        this.loansFacade.setLendBookShowInfo(false);
       }
     });
 
-    this._loansFacade.getReturnBookShowInfo().pipe(
-      takeWhile(() => this._componentActive)
+    this.loansFacade.getReturnBookShowInfo().pipe(
+      takeWhile(() => this.componentActive)
     ).subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('The status has been changed successfully');
-        this._loansFacade.setReturnBookShowInfo(false);
+        this.loansFacade.setReturnBookShowInfo(false);
       }
     });
 
-    this._loansFacade.getSetBookStatusToLostShowInfo().pipe(
-      takeWhile(() => this._componentActive)
+    this.loansFacade.getSetBookStatusToLostShowInfo().pipe(
+      takeWhile(() => this.componentActive)
     ).subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('The status has been changed successfully');
-        this._loansFacade.setBookStatusToLostShowInfo(false);
+        this.loansFacade.setBookStatusToLostShowInfo(false);
       }
     });
   }
 
   public ngOnDestroy(): void {
-    this._componentActive = false;
+    this.componentActive = false;
   }
 
   public filterLoansList(loansSearchFilter: ILoanSearchFilter): void {
-    this._loansFacade.filterLoans(loansSearchFilter);
+    this.loansFacade.filterLoans(loansSearchFilter);
   }
 
   public sortLoans(column: LoanSortColumns): void {
-    this._loansFacade.sortLoans(column);
+    this.loansFacade.sortLoans(column);
   }
 
   public lendBook(loanEvent: ILoanEvent): void {
     if (window.confirm('Are you sure you want to change the status to \'Borrowed\'?')) {
-      this._loansFacade.lendBook(loanEvent);
+      this.loansFacade.lendBook(loanEvent);
     }
   }
 
   public returnBook(loanEvent: ILoanEvent): void {
     if (window.confirm('Are you sure you want to change the status to \'Available\'?')) {
-      this._loansFacade.returnBook(loanEvent);
+      this.loansFacade.returnBook(loanEvent);
     }
   }
 
   public setBookStatusToLost(loanEvent: ILoanEvent): void {
     if (window.confirm('Are you sure you want to change the status to \'Lost\'?')) {
-      this._loansFacade.setBookStatusToLost(loanEvent);
+      this.loansFacade.setBookStatusToLost(loanEvent);
     }
   }
 }

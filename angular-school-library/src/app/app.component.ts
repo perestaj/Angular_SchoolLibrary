@@ -10,9 +10,9 @@ export class AppComponent implements OnInit {
 
   title = 'app';
 
-  constructor(private _authenticationFacade: AuthenticationFacade) { }
+  constructor(private authenticationFacade: AuthenticationFacade) { }
 
   public ngOnInit(): void {
-    this._authenticationFacade.authorizeFromLocalStorage();
+    this.authenticationFacade.authorizeFromLocalStorage();
   }
 }

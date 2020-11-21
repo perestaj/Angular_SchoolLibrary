@@ -16,7 +16,7 @@ export class UsersSearchPanelComponent implements OnInit {
   public usersSearchPanelForm: FormGroup;
 
   get roles(): FormArray {
-    return <FormArray>this.usersSearchPanelForm.get('userRoles');
+    return this.usersSearchPanelForm.get('userRoles') as FormArray;
   }
 
   constructor(private _fb: FormBuilder) {
@@ -29,7 +29,7 @@ export class UsersSearchPanelComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const userRolesFormArray = <FormArray>this.usersSearchPanelForm.get('userRoles');
+    const userRolesFormArray = this.usersSearchPanelForm.get('userRoles') as FormArray;
 
     while (userRolesFormArray.length > 0) {
       userRolesFormArray.removeAt(0);

@@ -8,29 +8,29 @@ import { AuthorsFacade } from './state/authors.facade';
 @Injectable()
 export class AuthorGuard implements CanActivate {
   constructor(
-    private _router: Router,
-    private _authenticationFacade: AuthenticationFacade,
-    private _authorsFacade: AuthorsFacade) {}
+    private router: Router,
+    private authenticationFacade: AuthenticationFacade,
+    private authorsFacade: AuthorsFacade) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this._authenticationFacade.getCanEditAuthors()
+        return this.authenticationFacade.getCanEditAuthors()
             .pipe(
                 first(),
                 flatMap((result: boolean) => {
                     if (!result) {
-                        this._router.navigate(['/login']);
+                        this.router.navigate(['/login']);
                         return of(false);
                     }
 
                     const id = next.paramMap.get('id');
                     if (isNaN(parseInt(id, 10))) {
-                        this._router.navigate(['/administration/authors']);
+                        this.router.navigate(['/administration/authors']);
                         return of(false);
                     }
 
-                    this._authorsFacade.setIsEditMode( +id === 0);
+                    this.authorsFacade.setIsEditMode( +id === 0);
 
                     return of(true);
                 })

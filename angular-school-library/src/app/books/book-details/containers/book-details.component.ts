@@ -23,42 +23,42 @@ export class BookDetailsComponent implements OnInit, OnDestroy {
   public publishers$: Observable<IPublisher[]>;
 
   constructor(
-    private _bookFacade: BookFacade,
-    private _appFacade: AppFacade,
-    private _authenticationFacade: AuthenticationFacade,
-    private _router: Router
+    private bookFacade: BookFacade,
+    private appFacade: AppFacade,
+    private authenticationFacade: AuthenticationFacade,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
-    this._appFacade.loadAuthors();
-    this._appFacade.loadPublishers();
-    this._bookFacade.loadBook();
+    this.appFacade.loadAuthors();
+    this.appFacade.loadPublishers();
+    this.bookFacade.loadBook();
 
-    this.authors$ = this._appFacade.getAuthors();
-    this.publishers$ = this._appFacade.getPublishers();
-    this.book$ = this._bookFacade.getBook();
+    this.authors$ = this.appFacade.getAuthors();
+    this.publishers$ = this.appFacade.getPublishers();
+    this.book$ = this.bookFacade.getBook();
 
-    this.isEditMode$ = this._bookFacade.getIsEditMode();
-    this.canEditBook$ = this._authenticationFacade.getCanEditBook();
+    this.isEditMode$ = this.bookFacade.getIsEditMode();
+    this.canEditBook$ = this.authenticationFacade.getCanEditBook();
   }
 
   public ngOnDestroy(): void {
-    this._bookFacade.clearBook();
+    this.bookFacade.clearBook();
   }
 
-  public edit() {
-    this._bookFacade.setIsEditMode(true);
+  public edit(): void {
+    this.bookFacade.setIsEditMode(true);
   }
 
-  public cancelEdit() {
-    this._bookFacade.setIsEditMode(false);
+  public cancelEdit(): void {
+    this.bookFacade.setIsEditMode(false);
   }
 
-  public save(book: IBook) {
-    this._bookFacade.save(book);
+  public save(book: IBook): void {
+    this.bookFacade.save(book);
   }
 
-  public redirectToBooksList() {
-    this._router.navigate(['/books']);
+  public redirectToBooksList(): void {
+    this.router.navigate(['/books']);
   }
 }

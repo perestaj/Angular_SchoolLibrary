@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { BookStatuses } from '../../../../shared/models/book-statuses';
 import { ILoan } from '../../../models/loan.model';
 import { ILoanEvent } from '../../../models/loan-event.model';
@@ -11,7 +11,7 @@ import { LoanSortColumns } from '../../../models/loan-sort-columns';
   styleUrls: ['loans-table.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoansTableComponent implements OnInit {
+export class LoansTableComponent {
   @Input() loans: Array<ILoan>;
   @Input() sortColumn: string;
 
@@ -25,10 +25,8 @@ export class LoansTableComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { }
-
-  public setBookStatus(status, bookID, userID) {
-    const loanEvent = <ILoanEvent> { bookID, userID };
+  public setBookStatus(status, bookID, userID): void {
+    const loanEvent =  { bookID, userID } as ILoanEvent;
 
     if (status === BookStatuses.Available) {
       this.returnBook.emit(loanEvent);

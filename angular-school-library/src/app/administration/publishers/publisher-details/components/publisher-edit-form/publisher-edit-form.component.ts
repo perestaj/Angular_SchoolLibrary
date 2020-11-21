@@ -29,10 +29,10 @@ export class PublisherEditFormComponent implements OnInit {
     return this.publisherEditForm.get('additionalInformation');
   }
 
-  constructor(private _fb: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
-    this.publisherEditForm = this._fb.group({
+    this.publisherEditForm = this.formBuilder.group({
       publisherID: [this.publisher.publisherID],
       name: [this.publisher.name, [Validators.required, Validators.maxLength(50)]],
       address: [this.publisher.address, [Validators.required, Validators.maxLength(200)]],
@@ -40,7 +40,7 @@ export class PublisherEditFormComponent implements OnInit {
     });
   }
 
-  public save() {
+  public save(): void {
     for (const field in this.publisherEditForm.controls) {
       const control = this.publisherEditForm.get(field);
       control.markAsTouched( {onlySelf: true } );

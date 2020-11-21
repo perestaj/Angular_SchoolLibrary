@@ -8,29 +8,29 @@ import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class LoansService {
-  private _baseUrl: string;
+  private baseUrl: string;
 
-  constructor(private _http: HttpClient) {
-    this._baseUrl = environment.baseUrl;
+  constructor(private http: HttpClient) {
+    this.baseUrl = environment.baseUrl;
   }
 
   public getLoans(): Observable<ILoan[]> {
-    return this._http.get<ILoan[]>(`${this._baseUrl}/loans`);
+    return this.http.get<ILoan[]>(`${this.baseUrl}/loans`);
   }
 
   public requestBook(bookID: number): Observable<any> {
-    return this._http.post(`${this._baseUrl}/loans/request?bookID=${bookID}`, {});
+    return this.http.post(`${this.baseUrl}/loans/request?bookID=${bookID}`, {});
   }
 
   public returnBook(userID: number, bookID: number): Observable<any> {
-    return this._http.post(`${this._baseUrl}/loans/update/${userID}/${bookID}/${BookStatuses.Available}`, {});
+    return this.http.post(`${this.baseUrl}/loans/update/${userID}/${bookID}/${BookStatuses.Available}`, {});
   }
 
   public lendBook(userID: number, bookID: number): Observable<any> {
-    return this._http.post(`${this._baseUrl}/loans/update/${userID}/${bookID}/${BookStatuses.Borrowed}`, {});
+    return this.http.post(`${this.baseUrl}/loans/update/${userID}/${bookID}/${BookStatuses.Borrowed}`, {});
   }
 
   public setBookStatusToLost(userID: number, bookID: number): Observable<any> {
-    return this._http.post(`${this._baseUrl}/loans/update/${userID}/${bookID}/${BookStatuses.Lost}`, {});
+    return this.http.post(`${this.baseUrl}/loans/update/${userID}/${bookID}/${BookStatuses.Lost}`, {});
   }
 }

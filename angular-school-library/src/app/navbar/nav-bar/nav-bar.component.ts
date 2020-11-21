@@ -16,14 +16,14 @@ export class NavBarComponent implements OnInit {
   public canEditUsers$: Observable<boolean>;
   public displayAdministrationLink$: Observable<boolean>;
 
-  constructor(private _authenticationFacade: AuthenticationFacade, public router: Router) { }
+  constructor(private authenticationFacade: AuthenticationFacade, public router: Router) { }
 
   public ngOnInit(): void {
-    this.canEditLoans$ = this._authenticationFacade.getCanEditLoans();
-    this.displayAdministrationLink$ = this._authenticationFacade.getDisplayAdministrationLink();
-    this.canEditAuthors$ = this._authenticationFacade.getCanEditAuthors();
-    this.canEditPublishers$ = this._authenticationFacade.getCanEditPublishers();
-    this.canEditUsers$ = this._authenticationFacade.getCanEditUsers();
+    this.canEditLoans$ = this.authenticationFacade.getCanEditLoans();
+    this.displayAdministrationLink$ = this.authenticationFacade.getDisplayAdministrationLink();
+    this.canEditAuthors$ = this.authenticationFacade.getCanEditAuthors();
+    this.canEditPublishers$ = this.authenticationFacade.getCanEditPublishers();
+    this.canEditUsers$ = this.authenticationFacade.getCanEditUsers();
   }
 
 }

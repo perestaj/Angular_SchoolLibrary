@@ -14,52 +14,52 @@ import { takeWhile } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersListComponent implements OnInit, OnDestroy {
-  private _componentActive: boolean;
+  private componentActive: boolean;
 
   public searchFilter$: Observable<IUserSearchFilter>;
 
   public filteredUsers$: Observable<IUser[]>;
   public sortCriteria$: Observable<ISortCriteria<UserSortColumns>>;
 
-  constructor(private _usersFacade: UsersFacade) { }
+  constructor(private usersFacade: UsersFacade) { }
 
   public ngOnInit(): void {
-    this._componentActive = true;
+    this.componentActive = true;
 
-    this._usersFacade.loadDefaultSearchFilter();
-    this._usersFacade.loadUsers();
+    this.usersFacade.loadDefaultSearchFilter();
+    this.usersFacade.loadUsers();
 
-    this.sortCriteria$ = this._usersFacade.getSortCriteria();
-    this.searchFilter$ = this._usersFacade.getUsersSearchFilter();
+    this.sortCriteria$ = this.usersFacade.getSortCriteria();
+    this.searchFilter$ = this.usersFacade.getUsersSearchFilter();
 
-    this.filteredUsers$ = this._usersFacade.getFilteredUsers();
+    this.filteredUsers$ = this.usersFacade.getFilteredUsers();
 
-    this._usersFacade.getUserDeletedShowInfo().pipe(
-      takeWhile(() => this._componentActive)
+    this.usersFacade.getUserDeletedShowInfo().pipe(
+      takeWhile(() => this.componentActive)
     ).subscribe((showInfo: boolean) => {
       if (showInfo) {
         window.alert('The user has been deleted successfully');
-        this._usersFacade.deleteUserSuccessShowInfo(false);
-        this._usersFacade.loadUsers();
+        this.usersFacade.deleteUserSuccessShowInfo(false);
+        this.usersFacade.loadUsers();
       }
     });
   }
 
   public ngOnDestroy(): void {
-    this._componentActive = false;
+    this.componentActive = false;
   }
 
   public filterUsers(usersSearchFilter: IUserSearchFilter): void {
-    this._usersFacade.filterUsers(usersSearchFilter);
+    this.usersFacade.filterUsers(usersSearchFilter);
   }
 
   public sortUsers(column: UserSortColumns): void {
-    this._usersFacade.sortUsers(column);
+    this.usersFacade.sortUsers(column);
   }
 
   public deleteUser(userID: number): void {
     if (window.confirm('Are you sure you want to delete this user?')) {
-      this._usersFacade.deleteUser(userID);
+      this.usersFacade.deleteUser(userID);
     }
   }
 }
