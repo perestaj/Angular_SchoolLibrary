@@ -3,7 +3,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from
 import { Observable, of } from 'rxjs';
 import { BookFacade } from './state/book.facade';
 import { AuthenticationFacade } from '../authentication/state/authentication.facade';
-import { first, flatMap } from 'rxjs/operators';
+import { first, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class BooksGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class BooksGuard implements CanActivate {
         return this.authenticationFacade.getCanEditBook()
           .pipe(
             first(),
-            flatMap((result: boolean) => {
+            mergeMap((result: boolean) => {
               if (!result) {
                 this.router.navigate(['/login']);
                 return of (false);

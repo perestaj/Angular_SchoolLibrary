@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationFacade } from 'src/app/authentication/state/authentication.facade';
-import { flatMap, first } from 'rxjs/operators';
+import { mergeMap, first } from 'rxjs/operators';
 
 @Injectable()
 export class AuthorsGuard implements CanActivate {
@@ -14,7 +14,7 @@ export class AuthorsGuard implements CanActivate {
       return this.authenticationFacade.getCanEditAuthors()
       .pipe(
           first(),
-          flatMap((result: boolean) => {
+          mergeMap((result: boolean) => {
             if (!result) {
               this.router.navigate(['/login']);
               return of(false);

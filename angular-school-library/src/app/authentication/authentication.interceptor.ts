@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap, flatMap, first } from 'rxjs/operators';
+import { tap, mergeMap, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthenticationFacade } from './state/authentication.facade';
 
@@ -12,7 +12,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.authenticationFacade.getCurrentUser().pipe(
         first(),
-        flatMap(currentUser => {
+        mergeMap(currentUser => {
             const authReq = !!currentUser ? req.clone({
                 headers: req.headers.set('Authorization', 'Bearer ' + currentUser.token)
             }) : req;

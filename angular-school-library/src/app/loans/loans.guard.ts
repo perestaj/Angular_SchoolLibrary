@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationFacade } from '../authentication/state/authentication.facade';
-import { first, flatMap } from 'rxjs/operators';
+import { first, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class LoansGuard implements CanActivate {
@@ -11,7 +11,7 @@ export class LoansGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.authenticationFacade.getCanDisplayLoans().pipe(
       first(),
-      flatMap((result: boolean) => {
+      mergeMap((result: boolean) => {
         if (!result) {
           this.router.navigate(['/login']);
           return of(false);

@@ -19,12 +19,12 @@ export class UsersSearchPanelComponent implements OnInit {
     return this.usersSearchPanelForm.get('userRoles') as FormArray;
   }
 
-  constructor(private _fb: FormBuilder) {
-    this.usersSearchPanelForm = this._fb.group({
+  constructor(private formBuilder: FormBuilder) {
+    this.usersSearchPanelForm = this.formBuilder.group({
       fullName: '',
       email: '',
       address: '',
-      userRoles: this._fb.array([])
+      userRoles: this.formBuilder.array([])
     });
   }
 
@@ -50,7 +50,7 @@ export class UsersSearchPanelComponent implements OnInit {
   }
 
   private buildUserRoleGroup(): FormGroup {
-    return this._fb.group({
+    return this.formBuilder.group({
            id: 0,
            name: '',
            selected: false

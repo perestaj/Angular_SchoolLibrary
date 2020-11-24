@@ -19,11 +19,11 @@ export class LoansSearchPanelComponent implements OnInit {
     return this.loansSearchPanelForm.get('bookStatuses') as FormArray;
   }
 
-  constructor(private _fb: FormBuilder) {
-    this.loansSearchPanelForm = this._fb.group({
+  constructor(private formBuilder: FormBuilder) {
+    this.loansSearchPanelForm = this.formBuilder.group({
       title: '',
       user: '',
-      bookStatuses: this._fb.array([])
+      bookStatuses: this.formBuilder.array([])
     });
   }
 
@@ -45,7 +45,7 @@ export class LoansSearchPanelComponent implements OnInit {
   }
 
   private buildBookStatusGroup(): FormGroup {
-    return this._fb.group({
+    return this.formBuilder.group({
       id: 0,
       name: '',
       selected: false

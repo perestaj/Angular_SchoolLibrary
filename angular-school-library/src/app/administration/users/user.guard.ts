@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationFacade } from 'src/app/authentication/state/authentication.facade';
-import { first, flatMap } from 'rxjs/operators';
+import { first, mergeMap } from 'rxjs/operators';
 import { UsersFacade } from './state/users.facade';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class UserGuard implements CanActivate {
     return this.authenticationFacade.getCanDisplayUsers()
     .pipe(
       first(),
-      flatMap((result: boolean) => {
+      mergeMap((result: boolean) => {
         if (!result) {
           this.router.navigate(['/login']);
           return of(false);

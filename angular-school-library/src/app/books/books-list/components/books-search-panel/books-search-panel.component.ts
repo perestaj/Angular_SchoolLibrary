@@ -23,8 +23,8 @@ export class BooksSearchPanelComponent implements OnChanges {
 
   private valueChangesSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder) {
-    this.booksSearchPanelForm = this._fb.group({
+  constructor(private formBuilder: FormBuilder) {
+    this.booksSearchPanelForm = this.formBuilder.group({
       title: '',
       authorID: 0,
       publisherID: 0,
