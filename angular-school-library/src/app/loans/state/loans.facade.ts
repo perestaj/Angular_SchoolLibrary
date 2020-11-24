@@ -40,10 +40,10 @@ export class LoansFacade {
     }
 
     public getLoans(): Observable<ILoan[]> {
-        return combineLatest(
+        return combineLatest([
             this.store.pipe(select(loanSelectors.getLoans)),
             this.store.pipe(select(loanSelectors.getLoansSearchFilter)),
-            this.store.pipe(select(loanSelectors.getLoansSortCriteria))
+            this.store.pipe(select(loanSelectors.getLoansSortCriteria))]
         ).pipe(
             map(([loans, searchFilter, sortCriteria]) => {
                 const filteredLoans = this.filter(loans, searchFilter);

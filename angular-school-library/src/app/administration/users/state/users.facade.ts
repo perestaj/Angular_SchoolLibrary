@@ -51,10 +51,10 @@ export class UsersFacade {
   }
 
   public getFilteredUsers(): Observable<IUser[]> {
-    return combineLatest(
+    return combineLatest([
       this.store.pipe(select(userSelectors.getUsers)),
       this.store.pipe(select(userSelectors.getUsersSearchFilter)),
-      this.store.pipe(select(userSelectors.getUsersSortCriteria))
+      this.store.pipe(select(userSelectors.getUsersSortCriteria))]
     ).pipe(
         map(([users, searchFilter, sortCriteria]) => {
             const filteredUsers = this.filter(users, searchFilter);

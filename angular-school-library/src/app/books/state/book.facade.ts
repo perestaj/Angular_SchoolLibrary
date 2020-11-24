@@ -14,10 +14,10 @@ export class BookFacade {
   constructor(private store: Store<bookSelectors.IBookState>) {}
 
   public getBooks(): Observable<IBook[]> {
-    return combineLatest(
+    return combineLatest([
       this.store.pipe(select(bookSelectors.getBooks)),
       this.store.pipe(select(bookSelectors.getBooksSearchFilter)),
-      this.store.pipe(select(bookSelectors.getBooksSortCriteria))
+      this.store.pipe(select(bookSelectors.getBooksSortCriteria))]
     ).pipe(
         map(([books, searchFilter, sortCriteria]) => {
             const filteredBooks = this.filter(books, searchFilter);

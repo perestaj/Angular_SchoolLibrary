@@ -35,10 +35,10 @@ export class PublishersFacade {
   }
 
   public getFilteredPublishers(): Observable<IPublisher[]> {
-    return combineLatest(
+    return combineLatest([
       this.store.pipe(select(getPublishers)),
       this.store.pipe(select(publisherSelectors.getPublishersSearchFilter)),
-      this.store.pipe(select(publisherSelectors.getPublishersSortCriteria))
+      this.store.pipe(select(publisherSelectors.getPublishersSortCriteria))]
     ).pipe(
         map(([publishers, searchFilter, sortCriteria]) => {
             const filteredPublishers = this.filter(publishers, searchFilter);

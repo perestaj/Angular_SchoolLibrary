@@ -35,10 +35,10 @@ export class AuthorsFacade {
   }
 
   public getFilteredAuthors(): Observable<IAuthor[]> {
-    return combineLatest(
+    return combineLatest([
       this.store.pipe(select(getAuthors)),
       this.store.pipe(select(authorSelectors.getAuthorsSearchFilter)),
-      this.store.pipe(select(authorSelectors.getAuthorsSortCriteria))
+      this.store.pipe(select(authorSelectors.getAuthorsSortCriteria))]
     ).pipe(
         map(([authors, searchFilter, sortCriteria]) => {
             const filteredAuthors = this.filter(authors, searchFilter);
